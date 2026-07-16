@@ -1,0 +1,163 @@
+# DESIGN REFERENCE - NOT DIRECTLY DEPLOYABLE.
+# Replace example.invalid image, add an authenticated gateway, and implement
+# durable metadata/evidence/signing adapters before applying. This manifest is
+# intentionally single-replica STANDARD reference mode: current in-process state
+# is not safe for horizontal scaling and provides no HIGH-RISK containment.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: easap-reference
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
+    easap.io/status: design-reference-not-production
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: easap-reference-config
+  namespace: easap-reference
+  labels: {app.kubernetes.io/name: easap, easap.io/isolation-class: STANDARD}
+data:
+  NODE_ENV: production
+  EASAP_DEPLOYMENT_MODE: STANDARD_REFERENCE
+  EASAP_ISOLATION_CLASS: STANDARD
+  EASAP_AUTH_MODE: trusted-proxy
+  EASAP_PUBLIC_URL: https://assurance.example.com
+  DATABASE_URL: file:/data/easap.db
+  EASAP_PRODUCTION_READY: "false"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: easap-reference-data
+  namespace: easap-reference
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests: {storage: 5Gi}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: easap-reference
+  namespace: easap-reference
+automountServiceAccountToken: false
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: easap-reference
+  namespace: easap-reference
+  labels:
+    app.kubernetes.io/name: easap
+    app.kubernetes.io/component: control-plane-reference
+    app.kubernetes.io/version: 0.1.0
+    easap.io/isolation-class: STANDARD
+  annotations:
+    easap.io/status: design-reference-not-production
+    easap.io/production-gaps: federated-identity,WORM-evidence,KMS-HSM,durable-orchestration,executable-sandbox
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app.kubernetes.io/name: easap, app.kubernetes.io/component: control-plane-reference}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: easap
+        app.kubernetes.io/component: control-plane-reference
+        easap.io/isolation-class: STANDARD
+    spec:
+      serviceAccountName: easap-reference
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile: {type: RuntimeDefault}
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: easap
+          # Deliberately non-resolvable until CI publishes a reviewed OCI image.
+          image: example.invalid/easap/control-plane:0.1.0-standard-reference
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef: {name: easap-reference-config}
+          ports:
+            - {name: http, containerPort: 3000, protocol: TCP}
+          readinessProbe:
+            httpGet: {path: /, port: http}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 6
+          livenessProbe:
+            httpGet: {path: /, port: http}
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+          resources:
+            requests: {cpu: 250m, memory: 256Mi, ephemeral-storage: 256Mi}
+            limits: {cpu: "1", memory: 1Gi, ephemeral-storage: 1Gi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+            - {name: data, mountPath: /data}
+      volumes:
+        - name: tmp
+          emptyDir: {sizeLimit: 128Mi}
+        - name: data
+          persistentVolumeClaim: {claimName: easap-reference-data}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: easap-reference
+  namespace: easap-reference
+  labels: {app.kubernetes.io/name: easap}
+spec:
+  type: ClusterIP
+  selector: {app.kubernetes.io/name: easap, app.kubernetes.io/component: control-plane-reference}
+  ports:
+    - {name: http, port: 80, targetPort: http, protocol: TCP}
+---
+# No Ingress is included: expose only through a trusted gateway that authenticates
+# the caller and overwrites x-easap-user / x-easap-tenant / x-easap-roles headers.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: easap-reference-default-deny
+  namespace: easap-reference
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: easap-reference-gateway-only
+  namespace: easap-reference
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/name: easap, app.kubernetes.io/component: control-plane-reference}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels: {easap.io/component: authenticated-gateway}
+      ports:
+        - {port: http, protocol: TCP}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: easap-reference
+  namespace: easap-reference
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels: {app.kubernetes.io/name: easap, app.kubernetes.io/component: control-plane-reference}

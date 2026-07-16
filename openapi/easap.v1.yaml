@@ -1,0 +1,955 @@
+openapi: 3.1.0
+info:
+  title: Enterprise Agent Simulation and Assurance Platform API
+  version: 1.0.0
+  summary: EASAP-PS-001 v1 API contract
+  description: |
+    HTTP contract for the runnable STANDARD reference implementation. Camel-case
+    schemas are implementation serialization choices because EASAP-PS-001 does
+    not prescribe JSON names or types. `/v1/demo:run` is a synchronous console
+    extension, not part of the normative specification. Production deployments
+    require federated identity, durable orchestration, WORM evidence, KMS/HSM
+    signing, tenant isolation, and executable sandboxing. This contract does not
+    claim HIGH-RISK isolation or the specification's scale/SLO targets.
+  license:
+    name: Apache 2.0
+    identifier: Apache-2.0
+servers:
+  - url: http://localhost:3000
+    description: Local STANDARD reference only
+tags:
+  - name: Subjects
+  - name: Worlds
+  - name: Scenarios
+  - name: Campaigns
+  - name: Trials
+  - name: Findings
+  - name: Assurance
+  - name: Evidence
+  - name: Incidents
+  - name: Demo
+security:
+  - bearerAuth: []
+  - trustedProxyPrincipal: []
+paths:
+  /v1/subjects:
+    post:
+      tags: [Subjects]
+      operationId: registerSubject
+      summary: Register an immutable evaluated configuration
+      x-easap-roles: [agent_developer]
+      parameters: [{$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/SubjectBundle'}
+      responses:
+        '201': {$ref: '#/components/responses/ImmutableCreated'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '415': {$ref: '#/components/responses/UnsupportedMediaType'}
+  /v1/worlds:
+    post:
+      tags: [Worlds]
+      operationId: publishWorld
+      summary: Publish a versioned world model
+      x-easap-roles: [scenario_engineer]
+      parameters: [{$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/WorldModel'}
+      responses:
+        '201': {$ref: '#/components/responses/ImmutableCreated'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /v1/scenarios:validate:
+    post:
+      tags: [Scenarios]
+      operationId: validateScenario
+      summary: Type-check a scenario and its isolation requirements
+      x-easap-roles: [scenario_engineer, red_team_operator]
+      parameters: [{$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/Scenario'}
+      responses:
+        '200':
+          description: Validation completed; an invalid scenario is a successful validation response.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ScenarioValidationResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /v1/scenarios:
+    post:
+      tags: [Scenarios]
+      operationId: publishScenario
+      summary: Publish a validated immutable scenario
+      description: Console/reference extension supporting the scenario lifecycle.
+      x-easap-roles: [scenario_engineer]
+      parameters: [{$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/Scenario'}
+      responses:
+        '201': {$ref: '#/components/responses/ImmutableCreated'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /v1/campaigns:
+    post:
+      tags: [Campaigns]
+      operationId: createCampaign
+      summary: Create a bounded trial matrix
+      description: Production adapters enqueue work. The local demo endpoint is synchronous.
+      x-easap-roles: [scenario_engineer, agent_developer, red_team_operator, assurance_owner]
+      parameters: [{$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/CreateCampaignRequest'}
+      responses:
+        '202':
+          description: Campaign accepted.
+          headers:
+            Location: {schema: {type: string}, description: Campaign status resource}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/CampaignResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '429': {$ref: '#/components/responses/TooManyRequests'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+  /v1/campaigns/{id}:
+    get:
+      tags: [Campaigns]
+      operationId: getCampaign
+      summary: Read campaign status
+      parameters: [{$ref: '#/components/parameters/Id'}, {$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/Tenant'}]
+      responses:
+        '200':
+          description: Current campaign projection.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/CampaignResponse'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /v1/trials/{id}:run:
+    post:
+      tags: [Trials]
+      operationId: runTrial
+      summary: Execute one sealed trial attempt
+      description: Current implementation runs a supplied STANDARD reference adapter in process; it is not an arbitrary-code sandbox.
+      x-easap-roles: [scenario_engineer, red_team_operator]
+      parameters: [{$ref: '#/components/parameters/Id'}, {$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/TrialRunRequest'}
+      responses:
+        '200':
+          description: Sealed reference result.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ResultResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /v1/trials/{id}:replay:
+    post:
+      tags: [Trials]
+      operationId: replayTrial
+      summary: Replay and compare an expected harness-visible trace
+      description: Reference extension implementing EASAP-A01.
+      x-easap-roles: [scenario_engineer, red_team_operator, auditor]
+      parameters: [{$ref: '#/components/parameters/Id'}, {$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/TrialReplayRequest'}
+      responses:
+        '200':
+          description: Replay comparison.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ReplayResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /v1/findings/{id}:minimize:
+    post:
+      tags: [Findings]
+      operationId: minimizeFinding
+      summary: Generate and verify a minimal reproducer
+      x-easap-roles: [scenario_engineer, red_team_operator]
+      parameters: [{$ref: '#/components/parameters/Id'}, {$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [finding, scenario]
+              properties:
+                finding: {$ref: '#/components/schemas/Finding'}
+                scenario: {$ref: '#/components/schemas/Scenario'}
+      responses:
+        '200':
+          description: Verified minimization result.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/MinimizationResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /v1/assurance:decide:
+    post:
+      tags: [Assurance]
+      operationId: decideAssurance
+      summary: Evaluate a release profile and issue a decision
+      x-easap-roles: [release_authority]
+      parameters: [{$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/AssuranceDecisionRequest'}
+      responses:
+        '201':
+          description: Decision issued; a certificate exists only for APPROVED or CONDITIONAL outcomes.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AssuranceDecisionResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /v1/certificates/{id}/status:
+    get:
+      tags: [Assurance]
+      operationId: getCertificateStatus
+      summary: Resolve connected certificate status
+      description: Reference extension used by release gates. Consumers should fail closed when status cannot be resolved.
+      parameters: [{$ref: '#/components/parameters/Id'}, {$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/Tenant'}]
+      responses:
+        '200':
+          description: Authoritative status in the current deployment boundary.
+          headers:
+            Cache-Control: {schema: {type: string}, description: Must not exceed the configured revocation SLO}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/CertificateStatusResponse'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /v1/certificates/{id}:revoke:
+    post:
+      tags: [Assurance]
+      operationId: revokeCertificate
+      summary: Revoke an assurance artifact
+      x-easap-roles: [release_authority, assurance_owner]
+      parameters: [{$ref: '#/components/parameters/Id'}, {$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [reason]
+              properties:
+                reason: {type: string, minLength: 1, maxLength: 1000}
+      responses:
+        '200':
+          description: Revocation is idempotently recorded.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RevocationResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /v1/results/{id}/export:
+    get:
+      tags: [Evidence]
+      operationId: exportResult
+      summary: Return a signed verification package
+      x-easap-roles: [agent_developer, scenario_engineer, red_team_operator, release_authority, assurance_owner, auditor]
+      parameters: [{$ref: '#/components/parameters/Id'}, {$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/Tenant'}]
+      responses:
+        '200':
+          description: Portable, UI-independent verification package.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/VerificationPackageResponse'}
+            application/vnd.easap.verification+json:
+              schema: {$ref: '#/components/schemas/VerificationPackageResponse'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+  /v1/incidents:derive-scenario:
+    post:
+      tags: [Incidents]
+      operationId: deriveIncidentScenario
+      summary: Convert a privacy-reviewed synthetic incident into a regression scenario
+      description: The STANDARD reference accepts synthetic incidents only; production ingestion and DLP review are not implemented.
+      x-easap-roles: [scenario_engineer, assurance_owner]
+      parameters: [{$ref: '#/components/parameters/RequestId'}, {$ref: '#/components/parameters/IdempotencyKey'}, {$ref: '#/components/parameters/Tenant'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/IncidentDerivationRequest'}
+      responses:
+        '201':
+          description: Privacy-reviewed redacted regression.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/IncidentDerivationResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /v1/demo:run:
+    post:
+      tags: [Demo]
+      operationId: runReferenceDemo
+      summary: Run the synchronous procurement assurance reference flow
+      description: Local console extension. It demonstrates STANDARD domain contracts and is not a production assurance or isolation claim.
+      x-easap-reference-only: true
+      parameters: [{$ref: '#/components/parameters/RequestId'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/DemoRunRequest'}
+      responses:
+        '200':
+          description: Completed bounded reference campaign.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DemoRunResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '415': {$ref: '#/components/responses/UnsupportedMediaType'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Production gateway-issued tenant and role claims; not implemented by the local fallback.
+    trustedProxyPrincipal:
+      type: apiKey
+      in: header
+      name: x-easap-user
+      description: Trusted identity-proxy header. Never accept directly from public ingress.
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema: {type: string, minLength: 1, maxLength: 200}
+    RequestId:
+      name: X-Request-ID
+      in: header
+      required: false
+      schema: {type: string, minLength: 1, maxLength: 128}
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema: {type: string, minLength: 16, maxLength: 200}
+      description: Scoped to tenant and operation; replay with a different body returns 409.
+    Tenant:
+      name: X-EASAP-Tenant
+      in: header
+      required: false
+      schema: {type: string, minLength: 1, maxLength: 128}
+      description: Reference routing hint. Production derives and verifies tenant scope from identity.
+  responses:
+    ImmutableCreated:
+      description: Immutable content-addressed record created.
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ImmutableWriteResponse'}
+    BadRequest: {$ref: '#/components/responses/Problem400'}
+    Unauthorized: {$ref: '#/components/responses/Problem401'}
+    Forbidden: {$ref: '#/components/responses/Problem403'}
+    NotFound: {$ref: '#/components/responses/Problem404'}
+    Conflict: {$ref: '#/components/responses/Problem409'}
+    UnsupportedMediaType: {$ref: '#/components/responses/Problem415'}
+    Unprocessable: {$ref: '#/components/responses/Problem422'}
+    TooManyRequests: {$ref: '#/components/responses/Problem429'}
+    Unavailable: {$ref: '#/components/responses/Problem503'}
+    Problem400: {description: Invalid request, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Problem401: {description: Authentication required, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Problem403: {description: Not authorized, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Problem404: {description: Resource not found, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Problem409: {description: Immutable-state or idempotency conflict, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Problem415: {description: Content-Type must be application/json, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Problem422: {description: Domain validation failed, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Problem429: {description: Tenant quota exhausted, headers: {Retry-After: {schema: {type: integer, minimum: 1}}}, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+    Problem503: {description: "Durable evidence, signing, or regional execution capacity unavailable", headers: {Retry-After: {schema: {type: integer, minimum: 1}}}, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+  schemas:
+    Digest: {type: string, pattern: '^sha256:[a-f0-9]{64}$'}
+    Timestamp: {type: string, format: date-time}
+    JsonObject: {type: object, additionalProperties: true}
+    Meta:
+      type: object
+      required: [requestId]
+      properties: {requestId: {type: string}}
+    Problem:
+      type: object
+      required: [type, title, status, detail]
+      properties:
+        type: {type: string, format: uri-reference}
+        title: {type: string}
+        status: {type: integer, minimum: 400, maximum: 599}
+        detail: {type: string}
+        instance: {type: string, format: uri-reference}
+        errors:
+          type: array
+          items:
+            type: object
+            required: [path, message]
+            properties: {path: {type: string}, message: {type: string}}
+    IsolationClass: {type: string, enum: [STANDARD, RESTRICTED, HIGH-RISK, SHADOW]}
+    Capability:
+      type: object
+      additionalProperties: false
+      required: [kind, resource]
+      properties:
+        kind: {type: string, enum: [time, random, network, credential, filesystem, tool, external-effect]}
+        resource: {type: string, minLength: 1}
+        operations: {type: array, items: {type: string}, uniqueItems: true}
+        operation: {type: string}
+    SubjectBundle:
+      type: object
+      additionalProperties: false
+      required: [subjectId, version, artifactDigests, sbomDigest, model, prompts, tools, memory, policies, dependencies, capabilities, runtime, buildProvenanceDigest]
+      properties:
+        subjectId: {type: string, minLength: 1}
+        version: {type: string, minLength: 1}
+        artifactDigests: {type: object, additionalProperties: {$ref: '#/components/schemas/Digest'}, minProperties: 1}
+        sbomDigest: {$ref: '#/components/schemas/Digest'}
+        model:
+          type: object
+          required: [provider, name, version]
+          properties: {provider: {type: string}, name: {type: string}, version: {type: string}, digest: {$ref: '#/components/schemas/Digest'}}
+        prompts: {type: object, additionalProperties: {$ref: '#/components/schemas/Digest'}}
+        tools:
+          type: array
+          items:
+            type: object
+            required: [name, version, digest]
+            properties: {name: {type: string}, version: {type: string}, digest: {$ref: '#/components/schemas/Digest'}}
+        memory:
+          type: object
+          required: [schemaDigest]
+          properties: {schemaDigest: {$ref: '#/components/schemas/Digest'}, imageDigest: {$ref: '#/components/schemas/Digest'}}
+        policies: {type: array, items: {$ref: '#/components/schemas/Digest'}}
+        dependencies:
+          type: array
+          items:
+            type: object
+            required: [name, version, digest]
+            properties:
+              name: {type: string}
+              version: {type: string}
+              digest: {$ref: '#/components/schemas/Digest'}
+              kind: {type: string, enum: [connector, runtime, library, service]}
+        capabilities: {type: array, items: {$ref: '#/components/schemas/Capability'}}
+        runtime:
+          type: object
+          required: [name, version, digest]
+          properties: {name: {type: string}, version: {type: string}, digest: {$ref: '#/components/schemas/Digest'}}
+        buildProvenanceDigest: {$ref: '#/components/schemas/Digest'}
+    WorldModel:
+      type: object
+      additionalProperties: false
+      required: [worldId, version, entities, transitionComponents, clocks, resources, uncertainty, limitations, fidelityClaims]
+      properties:
+        worldId: {type: string}
+        version: {type: string}
+        entities: {$ref: '#/components/schemas/JsonObject'}
+        transitionComponents:
+          type: array
+          items:
+            type: object
+            required: [componentId, kind, version, digest]
+            properties:
+              componentId: {type: string}
+              kind: {type: string, enum: [discrete-event, state-machine, rules, learned]}
+              version: {type: string}
+              digest: {$ref: '#/components/schemas/Digest'}
+              trainingDataBoundary: {type: string}
+              calibrationEvidenceDigest: {$ref: '#/components/schemas/Digest'}
+              emitsUncertainty: {type: boolean}
+              deterministicFallbackDigest: {$ref: '#/components/schemas/Digest'}
+        clocks: {$ref: '#/components/schemas/JsonObject'}
+        resources: {$ref: '#/components/schemas/JsonObject'}
+        uncertainty: {$ref: '#/components/schemas/JsonObject'}
+        limitations: {type: array, items: {type: string}}
+        fidelityClaims: {type: array, items: {type: string}}
+    Scenario:
+      type: object
+      additionalProperties: false
+      required: [scenarioId, version, worldDigest, fixtures, actors, initialState, events, objectives, invariants, expectedObservations, injectors, oracles, stopRules, classification, dependencyDigests]
+      properties:
+        scenarioId: {type: string}
+        version: {type: string}
+        worldDigest: {$ref: '#/components/schemas/Digest'}
+        fixtures: {type: object, additionalProperties: true}
+        actors:
+          type: array
+          items:
+            type: object
+            required: [actorId, kind]
+            properties:
+              actorId: {type: string}
+              kind: {type: string, enum: [subject, user, environment, adversary, human, service]}
+              capabilities: {type: array, items: {$ref: '#/components/schemas/Capability'}}
+        initialState: {$ref: '#/components/schemas/JsonObject'}
+        events:
+          type: array
+          items:
+            type: object
+            required: [eventId, at, actor, type]
+            properties:
+              eventId: {type: string}
+              at: {type: number, minimum: 0}
+              phase: {type: integer}
+              actor: {type: string}
+              type: {type: string}
+              payload: true
+              mutations: {type: array, items: {$ref: '#/components/schemas/StateMutation'}}
+              requiredCapabilities: {type: array, items: {$ref: '#/components/schemas/Capability'}}
+              causeId: {type: string}
+              correlationId: {type: string}
+        objectives: {type: array, items: {type: string}}
+        invariants: {type: array, items: {$ref: '#/components/schemas/Oracle'}}
+        expectedObservations: {type: array, items: {type: string}}
+        injectors:
+          type: array
+          items:
+            type: object
+            required: [injectorId, kind]
+            properties:
+              injectorId: {type: string}
+              kind: {type: string, enum: [latency, timeout, partial-response, stale-data, inconsistent-replica, permission-loss, budget-exhaustion, dependency-compromise, human-non-response]}
+              target: {$ref: '#/components/schemas/JsonObject'}
+              probability: {type: number, minimum: 0, maximum: 1}
+              latencyMs: {type: number, minimum: 0}
+              replacementPayload: true
+              capability: {$ref: '#/components/schemas/Capability'}
+        oracles: {type: array, items: {$ref: '#/components/schemas/Oracle'}}
+        stopRules:
+          type: array
+          items:
+            type: object
+            required: [kind]
+            properties: {kind: {type: string, enum: [max-events, max-logical-time, oracle-failure]}, value: {type: number, minimum: 0}}
+        classification: {$ref: '#/components/schemas/IsolationClass'}
+        dependencyDigests: {type: array, items: {$ref: '#/components/schemas/Digest'}}
+        hiddenSuiteDigest: {$ref: '#/components/schemas/Digest'}
+    StateMutation:
+      type: object
+      required: [op, path]
+      properties: {op: {type: string, enum: [set, delete, increment, append]}, path: {type: string}, value: true}
+    Oracle:
+      type: object
+      required: [oracleId, version, input, decisionRule, provenanceDigest, failureClass, severity]
+      properties:
+        oracleId: {type: string}
+        version: {type: string}
+        input:
+          type: object
+          required: [source]
+          properties: {source: {type: string, enum: [state, last-output, observation]}, path: {type: string}}
+        decisionRule: {type: string, enum: [equals, not-equals, exists, not-exists, greater-than, greater-than-or-equal, less-than, less-than-or-equal, contains]}
+        expected: true
+        tolerance: {type: number, minimum: 0}
+        provenanceDigest: {$ref: '#/components/schemas/Digest'}
+        failureClass: {type: string}
+        severity: {$ref: '#/components/schemas/Severity'}
+    ResourceLimits:
+      type: object
+      additionalProperties: false
+      required: [maxEvents, maxLogicalTimeMs]
+      properties:
+        maxEvents: {type: integer, minimum: 1}
+        maxLogicalTimeMs: {type: integer, minimum: 1}
+        maxFaults: {type: integer, minimum: 0}
+        maxTokens: {type: integer, minimum: 0}
+        maxCost: {type: number, minimum: 0}
+    CreateCampaignRequest:
+      type: object
+      additionalProperties: false
+      required: [subjectDigest, worldDigest, scenarioDigest, seeds, mode, isolationClass, resourceLimits]
+      properties:
+        subjectDigest: {$ref: '#/components/schemas/Digest'}
+        worldDigest: {$ref: '#/components/schemas/Digest'}
+        scenarioDigest: {$ref: '#/components/schemas/Digest'}
+        seeds: {type: array, minItems: 1, items: {oneOf: [{type: string}, {type: number}]}}
+        mode: {type: string, enum: [exact-replay, seeded-stochastic, monte-carlo, counterfactual, adversarial-co-play]}
+        isolationClass: {$ref: '#/components/schemas/IsolationClass'}
+        resourceLimits: {$ref: '#/components/schemas/ResourceLimits'}
+    Campaign:
+      allOf:
+        - {$ref: '#/components/schemas/CreateCampaignRequest'}
+        - type: object
+          required: [campaignId, maxTrials]
+          properties: {campaignId: {type: string}, maxTrials: {type: integer, minimum: 1}}
+    CampaignResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          allOf:
+            - {$ref: '#/components/schemas/Campaign'}
+            - type: object
+              properties:
+                state: {type: string, enum: [QUEUED, RUNNING, COMPLETED, FAILED, CANCELLED]}
+                completedTrials: {type: integer, minimum: 0}
+                failedTrials: {type: integer, minimum: 0}
+        meta: {$ref: '#/components/schemas/Meta'}
+    Trial:
+      type: object
+      required: [trialId, attemptId, subjectDigest, worldDigest, scenarioDigest, seed, isolationClass, resourceLimits, environment, state, timestamps, harnessVersion, attestationDigest]
+      properties:
+        trialId: {type: string}
+        attemptId: {type: string}
+        campaignId: {type: string}
+        subjectDigest: {$ref: '#/components/schemas/Digest'}
+        worldDigest: {$ref: '#/components/schemas/Digest'}
+        scenarioDigest: {$ref: '#/components/schemas/Digest'}
+        seed: {oneOf: [{type: string}, {type: number}]}
+        isolationClass: {$ref: '#/components/schemas/IsolationClass'}
+        resourceLimits: {$ref: '#/components/schemas/ResourceLimits'}
+        environment: {$ref: '#/components/schemas/JsonObject'}
+        state: {type: string, enum: [SEALED, RUNNING, COMPLETED, FAILED]}
+        timestamps:
+          type: object
+          required: [createdAt]
+          properties: {createdAt: {$ref: '#/components/schemas/Timestamp'}, startedAt: {$ref: '#/components/schemas/Timestamp'}, endedAt: {$ref: '#/components/schemas/Timestamp'}}
+        harnessVersion: {type: string}
+        attestationDigest: {$ref: '#/components/schemas/Digest'}
+    TrialRunRequest:
+      type: object
+      required: [trial, subject, world, scenario]
+      properties:
+        trial: {$ref: '#/components/schemas/Trial'}
+        subject: {$ref: '#/components/schemas/SubjectBundle'}
+        world: {$ref: '#/components/schemas/WorldModel'}
+        scenario: {$ref: '#/components/schemas/Scenario'}
+    TrialReplayRequest:
+      allOf:
+        - {$ref: '#/components/schemas/TrialRunRequest'}
+        - type: object
+          required: [expected]
+          properties: {expected: {$ref: '#/components/schemas/ResultManifest'}}
+    Severity: {type: string, enum: [INFO, LOW, MEDIUM, HIGH, CRITICAL]}
+    Finding:
+      type: object
+      required: [findingId, failureClass, severity, reproducibility, trace, summary, sealed]
+      properties:
+        findingId: {type: string}
+        failureClass: {type: string}
+        severity: {$ref: '#/components/schemas/Severity'}
+        reproducibility: {$ref: '#/components/schemas/JsonObject'}
+        trace: {$ref: '#/components/schemas/JsonObject'}
+        summary: {type: string}
+        minimalCase: {$ref: '#/components/schemas/JsonObject'}
+        sealed: {type: boolean}
+    Measure:
+      type: object
+      required: [name, dimension, value, unit]
+      properties:
+        name: {type: string}
+        dimension: {type: string, enum: [goal-reliability, policy-integrity, robustness, calibration, recoverability, efficiency, coverage, evidence-completeness]}
+        value: {type: number}
+        unit: {type: string}
+        passed: {type: boolean}
+    ResultManifest:
+      type: object
+      required: [resultId, tenantId, trial, subjectDigest, scenarioDigest, worldDigest, measures, oracleDecisions, observations, trace, findings, coverage, uncertainty, environmentDeviations, signatures]
+      properties:
+        resultId: {type: string}
+        tenantId: {type: string}
+        trial: {$ref: '#/components/schemas/Trial'}
+        subjectDigest: {$ref: '#/components/schemas/Digest'}
+        scenarioDigest: {$ref: '#/components/schemas/Digest'}
+        worldDigest: {$ref: '#/components/schemas/Digest'}
+        measures: {type: array, items: {$ref: '#/components/schemas/Measure'}}
+        oracleDecisions: {type: array, items: {$ref: '#/components/schemas/JsonObject'}}
+        observations: {type: array, items: {$ref: '#/components/schemas/JsonObject'}}
+        trace:
+          type: object
+          required: [algorithm, rootDigest, observationCount]
+          properties: {algorithm: {const: sha256-chain-v1}, rootDigest: {$ref: '#/components/schemas/Digest'}, observationCount: {type: integer, minimum: 0}}
+        findings: {type: array, items: {$ref: '#/components/schemas/Finding'}}
+        coverage: {$ref: '#/components/schemas/JsonObject'}
+        uncertainty: {$ref: '#/components/schemas/JsonObject'}
+        environmentDeviations: {type: array, items: {type: string}}
+        signatures: {type: array, items: {$ref: '#/components/schemas/JsonObject'}}
+    ResultResponse:
+      type: object
+      required: [data, meta]
+      properties: {data: {$ref: '#/components/schemas/ResultManifest'}, meta: {$ref: '#/components/schemas/Meta'}}
+    ReplayResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [exact, expectedTraceDigest, actualTraceDigest, result]
+          properties: {exact: {type: boolean}, expectedTraceDigest: {$ref: '#/components/schemas/Digest'}, actualTraceDigest: {$ref: '#/components/schemas/Digest'}, result: {$ref: '#/components/schemas/ResultManifest'}}
+        meta: {$ref: '#/components/schemas/Meta'}
+    MinimizationResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [findingId, minimalScenario, minimalScenarioDigest, transformations, verified]
+          properties:
+            findingId: {type: string}
+            minimalScenario: {$ref: '#/components/schemas/Scenario'}
+            minimalScenarioDigest: {$ref: '#/components/schemas/Digest'}
+            transformations: {type: array, items: {$ref: '#/components/schemas/JsonObject'}}
+            verified: {type: boolean}
+        meta: {$ref: '#/components/schemas/Meta'}
+    DeploymentRestriction:
+      oneOf:
+        - {type: object, required: [kind, environments], properties: {kind: {const: allowed-environments}, environments: {type: array, items: {type: string}}}}
+        - {type: object, required: [kind, tools], properties: {kind: {const: allowed-tools}, tools: {type: array, items: {type: string}}}}
+        - {type: object, required: [kind, authority], properties: {kind: {const: maximum-authority}, authority: {type: number}}}
+        - {type: object, required: [kind, gates], properties: {kind: {const: required-human-gates}, gates: {type: array, items: {type: string}}}}
+        - {type: object, required: [kind, policyDigest], properties: {kind: {const: monitoring-policy}, policyDigest: {$ref: '#/components/schemas/Digest'}}}
+        - {type: object, required: [kind, classes], properties: {kind: {const: isolation-class}, classes: {type: array, items: {$ref: '#/components/schemas/IsolationClass'}}}}
+        - {type: object, required: [kind, except], properties: {kind: {const: deny-network}, except: {type: array, items: {type: string}}}}
+    AssuranceProfile:
+      type: object
+      required: [profileId, version, riskClass, requiredSuites, measures, thresholds, confidence, exceptions, materialityRules, defaultMaterialityEffect, maximumValiditySeconds]
+      properties:
+        profileId: {type: string}
+        version: {type: string}
+        riskClass: {type: string, enum: [LOW, MODERATE, HIGH, CRITICAL]}
+        requiredSuites: {type: array, items: {$ref: '#/components/schemas/Digest'}}
+        measures: {type: array, items: {type: string}}
+        thresholds: {type: array, items: {type: object, required: [measure, operator, value], properties: {measure: {type: string}, operator: {type: string, enum: [gte, lte]}, value: {type: number}}}}
+        confidence: {type: number, minimum: 0, maximum: 1}
+        exceptions: {type: array, items: {type: string}}
+        materialityRules: {type: array, items: {type: object, required: [component, effect], properties: {component: {type: string, enum: [model, prompt, tool, policy, memory-schema, connector, runtime-dependency]}, effect: {type: string, enum: [invalidate, narrow, ignore]}}}}
+        defaultMaterialityEffect: {type: string, enum: [invalidate, narrow]}
+        maximumValiditySeconds: {type: integer, minimum: 1}
+    AssuranceDecisionRequest:
+      type: object
+      required: [decisionId, profile, profileAuthor, subjectDigest, results, executedSuiteDigests, coverage, residualRisk]
+      properties:
+        decisionId: {type: string}
+        profile: {$ref: '#/components/schemas/AssuranceProfile'}
+        profileAuthor: {type: string}
+        subjectDigest: {$ref: '#/components/schemas/Digest'}
+        results: {type: array, minItems: 1, items: {$ref: '#/components/schemas/ResultManifest'}}
+        executedSuiteDigests: {type: array, items: {$ref: '#/components/schemas/Digest'}}
+        coverage: {$ref: '#/components/schemas/JsonObject'}
+        residualRisk: {$ref: '#/components/schemas/JsonObject'}
+        conditions: {type: array, items: {$ref: '#/components/schemas/DeploymentRestriction'}}
+    AssuranceDecision:
+      type: object
+      required: [decisionId, profileDigest, subjectDigest, resultDigests, suiteDigests, coverage, residualRisk, approver, conditions, outcome, issuedAt, expiresAt]
+      properties:
+        decisionId: {type: string}
+        profileDigest: {$ref: '#/components/schemas/Digest'}
+        subjectDigest: {$ref: '#/components/schemas/Digest'}
+        resultDigests: {type: array, items: {$ref: '#/components/schemas/Digest'}}
+        suiteDigests: {type: array, items: {$ref: '#/components/schemas/Digest'}}
+        coverage: {$ref: '#/components/schemas/JsonObject'}
+        residualRisk: {$ref: '#/components/schemas/JsonObject'}
+        approver: {type: string}
+        conditions: {type: array, items: {$ref: '#/components/schemas/DeploymentRestriction'}}
+        outcome: {type: string, enum: [APPROVED, CONDITIONAL, REJECTED, INVALIDATED, NARROWED]}
+        issuedAt: {$ref: '#/components/schemas/Timestamp'}
+        expiresAt: {$ref: '#/components/schemas/Timestamp'}
+    Certificate:
+      type: object
+      required: [certificateId, tenantId, subjectDigest, profileDigest, suiteDigests, decisionDigest, decision, conditions, issuedAt, expiresAt, issuer, revocationEndpoint]
+      properties:
+        certificateId: {type: string}
+        tenantId: {type: string}
+        subjectDigest: {$ref: '#/components/schemas/Digest'}
+        profileDigest: {$ref: '#/components/schemas/Digest'}
+        suiteDigests: {type: array, items: {$ref: '#/components/schemas/Digest'}}
+        decisionDigest: {$ref: '#/components/schemas/Digest'}
+        decision: {type: string, enum: [APPROVED, CONDITIONAL]}
+        conditions: {type: array, items: {$ref: '#/components/schemas/DeploymentRestriction'}}
+        issuedAt: {$ref: '#/components/schemas/Timestamp'}
+        expiresAt: {$ref: '#/components/schemas/Timestamp'}
+        issuer: {type: string}
+        revocationEndpoint: {type: string, format: uri-reference}
+    AssuranceDecisionResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [decision]
+          properties: {decision: {$ref: '#/components/schemas/AssuranceDecision'}, certificate: {$ref: '#/components/schemas/Certificate'}, certificateEnvelope: {$ref: '#/components/schemas/SignedEnvelope'}}
+        meta: {$ref: '#/components/schemas/Meta'}
+    SignedEnvelope:
+      type: object
+      required: [envelopeVersion, algorithm, keyId, issuedAt, payloadDigest, payload, signature]
+      properties:
+        envelopeVersion: {const: easap-signed-envelope-v1}
+        algorithm: {const: HMAC-SHA-256, description: Reference-only; production uses a KMS/HSM-backed asymmetric profile.}
+        keyId: {type: string}
+        issuedAt: {$ref: '#/components/schemas/Timestamp'}
+        payloadDigest: {$ref: '#/components/schemas/Digest'}
+        payload: true
+        signature: {type: string}
+    CertificateStatusResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [certificate, status, expired, revoked]
+          properties: {certificate: {$ref: '#/components/schemas/Certificate'}, status: {type: string, enum: [ACTIVE, EXPIRED, REVOKED]}, expired: {type: boolean}, revoked: {type: boolean}}
+        meta: {$ref: '#/components/schemas/Meta'}
+    RevocationResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [tenantId, certificateId, reason, effectiveAt, revokedBy]
+          properties: {tenantId: {type: string}, certificateId: {type: string}, reason: {type: string}, effectiveAt: {$ref: '#/components/schemas/Timestamp'}, revokedBy: {type: string}}
+        meta: {$ref: '#/components/schemas/Meta'}
+    VerificationPackageResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [manifest, envelope, verification]
+          properties: {manifest: {$ref: '#/components/schemas/ResultManifest'}, envelope: {$ref: '#/components/schemas/SignedEnvelope'}, verification: {$ref: '#/components/schemas/JsonObject'}}
+        meta: {$ref: '#/components/schemas/Meta'}
+    ScenarioValidationResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [valid, errors, warnings]
+          properties: {valid: {type: boolean}, digest: {$ref: '#/components/schemas/Digest'}, errors: {type: array, items: {$ref: '#/components/schemas/JsonObject'}}, warnings: {type: array, items: {$ref: '#/components/schemas/JsonObject'}}}
+        meta: {$ref: '#/components/schemas/Meta'}
+    ImmutableWriteResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [id, externalId, version, digest, classification, hidden, status, payload, createdBy, createdAt, sealedAt]
+          properties:
+            id: {type: string}
+            externalId: {type: string}
+            version: {type: string}
+            digest: {$ref: '#/components/schemas/Digest'}
+            classification: {$ref: '#/components/schemas/IsolationClass'}
+            hidden: {type: boolean}
+            status: {const: SEALED}
+            payload: true
+            createdBy: {type: string}
+            createdAt: {$ref: '#/components/schemas/Timestamp'}
+            sealedAt: {$ref: '#/components/schemas/Timestamp'}
+        meta: {$ref: '#/components/schemas/Meta'}
+    IncidentDerivationRequest:
+      type: object
+      required: [incident, review, worldDigest]
+      properties:
+        incident:
+          type: object
+          required: [incidentId, tenantId, synthetic, classification, initialState, events]
+          properties: {incidentId: {type: string}, tenantId: {type: string}, synthetic: {const: true}, classification: {$ref: '#/components/schemas/IsolationClass'}, initialState: {$ref: '#/components/schemas/JsonObject'}, events: {type: array, items: {$ref: '#/components/schemas/JsonObject'}}, protectedPaths: {type: array, items: {type: string}}}
+        review:
+          type: object
+          required: [reviewer, reviewedAt, approved]
+          properties: {reviewer: {type: string}, reviewedAt: {$ref: '#/components/schemas/Timestamp'}, approved: {const: true}, notes: {type: string}}
+        worldDigest: {$ref: '#/components/schemas/Digest'}
+        scenarioVersion: {type: string}
+    IncidentDerivationResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [sourceIncidentDigest, scenario, scenarioDigest, review, redactions]
+          properties: {sourceIncidentDigest: {$ref: '#/components/schemas/Digest'}, scenario: {$ref: '#/components/schemas/Scenario'}, scenarioDigest: {$ref: '#/components/schemas/Digest'}, review: {$ref: '#/components/schemas/JsonObject'}, redactions: {type: array, items: {$ref: '#/components/schemas/JsonObject'}}}
+        meta: {$ref: '#/components/schemas/Meta'}
+    DemoRunRequest:
+      type: object
+      additionalProperties: false
+      required: [subject_id, world_id, scenario_suite_id, assurance_profile_id, isolation_class, seed_strategy, trial_count]
+      properties:
+        subject_id: {type: string, example: subj-procureops-2.4.1}
+        world_id: {type: string, example: world-northstar-procurement-eu@2026.07}
+        scenario_suite_id: {type: string, example: suite-procurement-boundary@3.2}
+        assurance_profile_id: {type: string, example: profile-procurement-standard@5.0}
+        isolation_class: {const: STANDARD, description: The reference demo rejects production isolation claims.}
+        seed_strategy: {const: fixed}
+        trial_count: {type: integer, minimum: 1, maximum: 100, default: 24}
+    DemoRunResponse:
+      type: object
+      required: [run_id, mode, summary, decision, evidence, meta]
+      properties:
+        run_id: {type: string}
+        mode: {const: STANDARD-reference}
+        summary:
+          type: object
+          required: [trials, passed, findings, duration, sampleCount, distribution, confidenceInterval95, seedCoverage]
+          properties:
+            trials: {type: integer, minimum: 0}
+            passed: {type: integer, minimum: 0}
+            findings: {type: integer, minimum: 0}
+            duration: {type: string}
+            policy_integrity: {type: number, minimum: 0, maximum: 1}
+            evidence_completeness: {type: number, minimum: 0, maximum: 1}
+            sampleCount: {type: integer, minimum: 0}
+            distribution: {$ref: '#/components/schemas/JsonObject'}
+            confidenceInterval95: {$ref: '#/components/schemas/JsonObject'}
+            seedCoverage: {$ref: '#/components/schemas/JsonObject'}
+        decision:
+          type: object
+          required: [id, posture, conditions, residualRisk]
+          properties: {id: {type: string}, posture: {type: string, enum: [APPROVED, CONDITIONAL, REJECTED]}, conditions: {type: array, items: {type: string}}, residualRisk: {$ref: '#/components/schemas/JsonObject'}}
+        certificate: {$ref: '#/components/schemas/Certificate'}
+        evidence:
+          type: object
+          required: [resultDigests, verified]
+          properties: {resultDigests: {type: array, items: {$ref: '#/components/schemas/Digest'}}, certificateDigest: {$ref: '#/components/schemas/Digest'}, verified: {type: boolean}}
+        meta: {$ref: '#/components/schemas/Meta'}

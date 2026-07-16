@@ -1,0 +1,49 @@
+{
+  "name": "easap-reference-platform",
+  "version": "0.1.0",
+  "private": false,
+  "license": "Apache-2.0",
+  "description": "Portable reference implementation for deterministic enterprise-agent simulation and assurance.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlmrx/enterprise-agent-simulation-assurance-platform.git"
+  },
+  "homepage": "https://github.com/mlmrx/enterprise-agent-simulation-assurance-platform#readme",
+  "bugs": {
+    "url": "https://github.com/mlmrx/enterprise-agent-simulation-assurance-platform/issues"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "npm run test:domain && npm run build && node --test tests/rendered-html.test.mjs",
+    "test:domain": "node --experimental-strip-types --test tests/easap/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "verify:evidence": "node --experimental-strip-types tools/verify-evidence.ts",
+    "release:gate": "node --experimental-strip-types tools/release-gate.ts",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "db:generate": "drizzle-kit generate"
+  },
+  "dependencies": {
+    "@libsql/client": "0.17.4",
+    "drizzle-orm": "0.45.2",
+    "next": "16.3.4",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.2.1",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "drizzle-kit": "0.31.10",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "4.2.1",
+    "typescript": "5.9.3"
+  },
+  "type": "module"
+}

@@ -1,0 +1,46 @@
+name: easap-standard-reference
+
+# Local developer topology only. It runs the synchronous STANDARD reference
+# adapter from the checked-out source. It is not a production sandbox, durable
+# evidence deployment, or HIGH-RISK execution environment.
+x-easap-status:
+  mode: STANDARD-reference
+  production-ready: false
+  missing-controls: federated-identity,WORM-evidence,KMS-HSM,microVM-sandbox,HA-orchestration
+
+services:
+  easap-reference:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: easap-reference:local
+    init: true
+    environment:
+      NODE_ENV: production
+      EASAP_DEPLOYMENT_MODE: STANDARD_REFERENCE
+      EASAP_ISOLATION_CLASS: STANDARD
+      EASAP_AUTH_MODE: local
+      EASAP_PUBLIC_URL: http://localhost:${EASAP_PORT:-3000}
+      DATABASE_URL: file:/data/easap.db
+    ports:
+      - "${EASAP_PORT:-3000}:3000"
+    volumes:
+      - type: volume
+        source: easap_data
+        target: /data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 60s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    stop_grace_period: 20s
+    restart: unless-stopped
+
+volumes:
+  easap_data:
