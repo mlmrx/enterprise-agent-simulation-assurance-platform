@@ -26,6 +26,29 @@ conformant HIGH-RISK production deployment.
   deployment restrictions, expiry, revocation, and fail-closed release-gate checks.
 - Privacy-reviewed incident-to-regression conversion with protected values redacted.
 - A role-aware assurance console and the normative `/v1` API surface.
+- A public live workbench that executes the real STANDARD campaign engine and
+  returns verifiable evidence rather than substituting a canned result.
+- An enterprise product surface with technical insights, a primary-source news
+  desk, and a deterministic daily operator brief.
+
+## Public product surfaces
+
+- `/` — enterprise landing page and embedded live campaign proof.
+- `/platform` — executable assurance workbench with downloadable evidence JSON.
+- `/insights` — original technical field notes for release and risk teams.
+- `/news` — source-linked agent security, standards, and evaluation intelligence.
+- `/daily/YYYY-MM-DD` — archived daily operator brief generated from verified feeds.
+
+The scheduled workflow in `.github/workflows/daily-intelligence.yml` runs every
+day at 12:15 UTC. It retrieves configured NIST, OWASP, MCP, and A2A feeds, keeps
+only relevant items with resolvable source URLs, generates a deterministic
+control-room brief, verifies the full platform, and commits the content. If no
+sources can be verified, it preserves the prior desk instead of inventing news.
+Run the same pipeline anywhere with:
+
+```bash
+npm run content:daily
+```
 
 ## Run locally
 
@@ -79,7 +102,7 @@ flowchart LR
   H --> I["Revoke and propagate status"]
 ```
 
-The console's **Run reference campaign** action performs this vertical slice with
+The live workbench's **Run live campaign** action performs this vertical slice with
 a procurement agent exposed to stale vendor data, permission loss, latency,
 prompt/tool injection, budget exhaustion, and attempted data exfiltration.
 

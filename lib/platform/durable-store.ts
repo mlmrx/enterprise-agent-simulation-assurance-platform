@@ -29,7 +29,8 @@ export interface ImmutableRecordInput<T> {
 export async function putImmutableRecord<T>(input: ImmutableRecordInput<T>) {
   const db = getDb();
   const digest = await contentAddress(input.payload);
-  const id = `rec_${digest.slice("sha256:".length, "sha256:".length + 24)}`;
+  const tenantScopedDigest = await contentAddress({ tenantId: input.tenantId, digest });
+  const id = `rec_${tenantScopedDigest.slice("sha256:".length, "sha256:".length + 24)}`;
   await db
     .insert(immutableRecords)
     .values({

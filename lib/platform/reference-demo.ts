@@ -59,6 +59,11 @@ export async function runReferenceDemo(
   requestedTrialCount: number,
 ): Promise<ReferenceDemoResponse> {
   const fixtures = await procurementReferenceFixtures(requestedTrialCount);
+  const tenantNamespace = (await contentAddress({ tenantId: identity.tenantId })).slice(7, 15);
+  const campaign = {
+    ...fixtures.campaign,
+    campaignId: `${fixtures.campaign.campaignId}-${tenantNamespace}`,
+  };
   const issuedAt = "2026-07-15T12:00:00.000Z";
 
   await Promise.all([
@@ -100,22 +105,22 @@ export async function runReferenceDemo(
   ]);
 
   await putCampaign({
-    id: fixtures.campaign.campaignId,
+    id: campaign.campaignId,
     tenantId: identity.tenantId,
     subjectDigest: fixtures.subjectDigest,
     worldDigest: fixtures.worldDigest,
     scenarioDigest: fixtures.scenarioDigest,
     mode: "seeded-stochastic",
     isolationClass: "STANDARD",
-    seeds: fixtures.campaign.seeds as number[],
-    resourceLimits: fixtures.campaign.resourceLimits as unknown as Record<string, number>,
+    seeds: campaign.seeds as number[],
+    resourceLimits: campaign.resourceLimits as unknown as Record<string, number>,
     requestedBy: identity.principal,
   });
-  await startCampaign(identity.tenantId, fixtures.campaign.campaignId);
+  await startCampaign(identity.tenantId, campaign.campaignId);
 
   const campaignResult = await runCampaign({
     tenantId: identity.tenantId,
-    campaign: fixtures.campaign,
+    campaign,
     subject: fixtures.subject,
     world: fixtures.world,
     scenario: fixtures.scenario,
@@ -140,7 +145,7 @@ export async function runReferenceDemo(
     await sealTrial({
       id: result.trial.trialId,
       tenantId: identity.tenantId,
-      campaignId: fixtures.campaign.campaignId,
+      campaignId: campaign.campaignId,
       seed: Number(result.trial.seed),
       harnessVersion: result.trial.harnessVersion,
       environmentAttestation: {
@@ -167,7 +172,7 @@ export async function runReferenceDemo(
 
   await completeCampaign({
     tenantId: identity.tenantId,
-    id: fixtures.campaign.campaignId,
+    id: campaign.campaignId,
     completedTrials: campaignResult.results.length,
     failedTrials: campaignResult.findings.length,
   });
@@ -185,7 +190,7 @@ export async function runReferenceDemo(
     limitations: fixtures.world.limitations,
   };
   const decision = await decideAssurance({
-    decisionId: `decision-${fixtures.campaign.campaignId}`,
+    decisionId: `decision-${campaign.campaignId}`,
     profile: fixtures.profile,
     subjectDigest: fixtures.subjectDigest,
     results: campaignResult.results,
@@ -233,11 +238,11 @@ export async function runReferenceDemo(
   let signedCertificate: SignedEnvelope<AssuranceCertificate> | undefined;
   if (decision.outcome === "APPROVED" || decision.outcome === "CONDITIONAL") {
     const certificate = await issueAssuranceCertificate({
-      certificateId: `certificate-${fixtures.campaign.campaignId}`,
+      certificateId: `certificate-${campaign.campaignId}`,
       tenantId: identity.tenantId,
       decision,
       issuer: "EASAP STANDARD reference issuer",
-      revocationEndpoint: `/v1/certificates/certificate-${fixtures.campaign.campaignId}:revoke`,
+      revocationEndpoint: `/v1/certificates/certificate-${campaign.campaignId}:revoke`,
     });
     signedCertificate = await signEnvelope(
       certificate,
@@ -280,7 +285,7 @@ export async function runReferenceDemo(
   await appendEvidenceEvent({
     tenantId: identity.tenantId,
     aggregateType: "campaign",
-    aggregateId: fixtures.campaign.campaignId,
+    aggregateId: campaign.campaignId,
     eventType: "campaign.assurance-sealed",
     payload: {
       resultDigests: signedResults.map((envelope) => envelope.payloadDigest),
@@ -295,7 +300,7 @@ export async function runReferenceDemo(
     (result) => result.measures.find((measure) => measure.name === "goal-reliability")?.value === 1,
   ).length;
   return {
-    run_id: fixtures.campaign.campaignId,
+    run_id: campaign.campaignId,
     mode: "STANDARD-reference",
     summary: {
       trials: campaignResult.results.length,

@@ -22,6 +22,7 @@
     "test": "npm run test:domain && npm run build && node --test tests/rendered-html.test.mjs",
     "test:domain": "node --experimental-strip-types --test tests/easap/*.test.ts",
     "typecheck": "tsc --noEmit",
+    "content:daily": "node tools/publish-daily-intelligence.mjs",
     "verify:evidence": "node --experimental-strip-types tools/verify-evidence.ts",
     "release:gate": "node --experimental-strip-types tools/release-gate.ts",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",

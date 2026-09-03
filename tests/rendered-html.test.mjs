@@ -61,18 +61,33 @@ after(async () => {
   }
 });
 
-test("server-renders the EASAP assurance console and product metadata", async () => {
+test("server-renders the enterprise landing page and product metadata", async () => {
   const response = await fetch(baseUrl);
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /<title>EASAP \| Enterprise Agent Assurance<\/title>/i);
-  assert.match(html, /Is ProcureOps v2\.4\.1 ready to receive authority\?/i);
-  assert.match(html, /Release readiness/i);
-  assert.match(html, /Procurement boundary matrix/i);
-  assert.match(html, /STANDARD reference workspace/i);
+  assert.match(html, /Ship agents with/i);
+  assert.match(html, /evidence, not optimism/i);
+  assert.match(html, /Run the live assurance campaign/i);
+  assert.match(html, /Six connected planes/i);
+  assert.match(html, /github\.com\/mlmrx\/enterprise-agent-simulation-assurance-platform/i);
   assert.match(html, /\/og\.png/i);
+});
+
+test("renders platform, editorial, intelligence, and daily brief surfaces", async () => {
+  const pages = [
+    ["/platform", /Run the assurance chain/i],
+    ["/insights", /Operational thinking for/i],
+    ["/news", /Signal for agent/i],
+    ["/daily/2026-09-03", /Control-room actions/i],
+  ];
+  for (const [path, expected] of pages) {
+    const response = await fetch(`${baseUrl}${path}`);
+    assert.equal(response.status, 200, `${path} should render`);
+    assert.match(await response.text(), expected);
+  }
 });
 
 test("portable build has no host-specific runtime bindings", async () => {
@@ -103,4 +118,21 @@ test("local reference campaign persists through portable SQLite", async () => {
     body: JSON.stringify({ trial_count: 6 }),
   });
   assert.equal(response.status, 201, await response.text());
+});
+
+test("public workbench executes the real engine without a fixture fallback", async () => {
+  const response = await fetch(`${baseUrl}/api/demo/run`, {
+    method: "POST",
+    headers: { "content-type": "application/json", origin: baseUrl },
+    body: JSON.stringify({ trialCount: 8 }),
+  });
+  const body = await response.text();
+  assert.equal(response.status, 201, body);
+  const payload = JSON.parse(body);
+  assert.equal(payload.meta.execution, "live-reference-engine");
+  assert.equal(payload.data.summary.trials, 8);
+  assert.equal(payload.data.summary.sampleCount, 8);
+  assert.equal(payload.data.evidence.verified, true);
+  assert.ok(payload.data.evidence.resultDigests.length === 8);
+  assert.ok(["APPROVED", "CONDITIONAL", "REJECTED"].includes(payload.data.decision.posture));
 });

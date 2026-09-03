@@ -1,0 +1,79 @@
+{
+  "date": "2026-09-03",
+  "slug": "agent-assurance-daily-2026-09-03",
+  "title": "Agent Assurance Daily — 2026-09-03",
+  "dek": "A source-linked operating brief for teams testing and governing enterprise agents.",
+  "generatedAt": "2026-09-03T19:31:34.693Z",
+  "methodology": "Deterministic synthesis from resolvable primary-source feed items. No language model and no invented reporting.",
+  "lead": {
+    "title": "OWASP GenAI Security Project Unveils 2026 Top 10 for LLM Applications, New Agent Control Standard and Sponsors as Community Tops 30,000 Members",
+    "source": "OWASP GenAI Security Project",
+    "publishedAt": "2026-09-02",
+    "href": "https://genai.owasp.org/2026/09/01/owasp-genai-security-project-unveils-2026-top-10-for-llm-applications-new-agent-control-standard-and-sponsors-as-community-tops-30000-members/",
+    "signal": "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
+    "tags": [
+      "security",
+      "standards",
+      "agents"
+    ]
+  },
+  "watchlist": [
+    {
+      "title": "Model Context Protocol release 2026-07-28",
+      "source": "Model Context Protocol",
+      "publishedAt": "2026-07-28",
+      "href": "https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28",
+      "signal": "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites.",
+      "tags": [
+        "platform change"
+      ]
+    },
+    {
+      "title": "Model Context Protocol release 2026-07-28 RC",
+      "source": "Model Context Protocol",
+      "publishedAt": "2026-07-28",
+      "href": "https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28-RC",
+      "signal": "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites.",
+      "tags": [
+        "platform change"
+      ]
+    },
+    {
+      "title": "NIST Mathematical Proof Supports Transition to a Continuous-Monitor-and-Update Security Model for AI Systems",
+      "source": "NIST News",
+      "publishedAt": "2026-06-09",
+      "href": "https://www.nist.gov/news-events/news/2026/06/nist-mathematical-proof-supports-transition-continuous-monitor-and-update",
+      "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "title": "NIST Expands AI Consortium’s Scope, Calls for New Members",
+      "source": "NIST News",
+      "publishedAt": "2026-05-29",
+      "href": "https://www.nist.gov/news-events/news/2026/05/nist-expands-ai-consortiums-scope-calls-new-members",
+      "signal": "Compare the evaluation method with system-level measures, uncertainty reporting, hidden-suite controls, and reproducibility requirements.",
+      "tags": [
+        "evaluation"
+      ]
+    },
+    {
+      "title": "Memory Is a Feature. It Is Also an Attack Surface",
+      "source": "OWASP GenAI Security Project",
+      "publishedAt": "2026-05-14",
+      "href": "https://genai.owasp.org/2026/05/13/memory-is-a-feature-it-is-also-an-attack-surface/",
+      "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+      "tags": [
+        "security",
+        "agents"
+      ]
+    }
+  ],
+  "actions": [
+    "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
+    "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites.",
+    "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+    "Compare the evaluation method with system-level measures, uncertainty reporting, hidden-suite controls, and reproducibility requirements."
+  ]
+}

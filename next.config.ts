@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   // Docker and other self-hosted deployments without conflicting with it.
   ...(process.env.VERCEL ? {} : { output: "standalone" as const }),
   serverExternalPackages: ["@libsql/client"],
+  outputFileTracingIncludes: {
+    "/daily/*": ["./content/daily/**/*.json"],
+  },
 };
 
 export default nextConfig;
