@@ -4,6 +4,7 @@ import { join } from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteFooter, SiteHeader } from "../../components/site-shell";
+import { publishedContent } from "@/lib/content/runtime";
 
 type NewsItem = {
   title: string;
@@ -28,11 +29,14 @@ type DailyBrief = {
 async function loadBrief(date: string): Promise<DailyBrief | null> {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
   try {
-    return JSON.parse(await readFile(join(process.cwd(), "content", "daily", `${date}.json`), "utf8")) as DailyBrief;
+    const local = JSON.parse(await readFile(join(process.cwd(), "content", "daily", `${date}.json`), "utf8")) as DailyBrief;
+    return publishedContent(`daily/${date}.json`, local);
   } catch {
-    return null;
+    return publishedContent<DailyBrief | null>(`daily/${date}.json`, null);
   }
 }
+
+export const revalidate = 900;
 
 export async function generateMetadata({ params }: { params: Promise<{ date: string }> }): Promise<Metadata> {
   const brief = await loadBrief((await params).date);

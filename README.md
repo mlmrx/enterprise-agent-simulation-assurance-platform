@@ -44,6 +44,9 @@ day at 12:15 UTC. It retrieves configured NIST, OWASP, MCP, and A2A feeds, keeps
 only relevant items with resolvable source URLs, generates a deterministic
 control-room brief, verifies the full platform, and commits the content. If no
 sources can be verified, it preserves the prior desk instead of inventing news.
+The public site reads those versioned JSON records from the public repository
+through a 15-minute cache, so daily updates do not require unattended production
+deployment credentials.
 Run the same pipeline anywhere with:
 
 ```bash

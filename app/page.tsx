@@ -1,6 +1,7 @@
 import Link from "next/link";
-import latestNews from "@/content/news/latest.json";
+import localLatestNews from "@/content/news/latest.json";
 import { articles } from "@/lib/content/editorial";
+import { publishedContent } from "@/lib/content/runtime";
 import { LiveProof } from "./components/live-proof";
 import { SiteFooter, SiteHeader } from "./components/site-shell";
 import { SystemVisual } from "./components/system-visual";
@@ -16,7 +17,10 @@ const controlPlanes = [
   ["Assurance", "Threshold gates, residual risk, deployment conditions, expiry, and revocation."],
 ];
 
-export default function Home() {
+export const revalidate = 900;
+
+export default async function Home() {
+  const latestNews = await publishedContent("news/latest.json", localLatestNews);
   return (
     <>
       <SiteHeader />

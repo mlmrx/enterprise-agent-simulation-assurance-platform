@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import latestNews from "@/content/news/latest.json";
-import latestDaily from "@/content/daily/latest.json";
+import localLatestNews from "@/content/news/latest.json";
+import localLatestDaily from "@/content/daily/latest.json";
 import { sourceDesk } from "@/lib/content/editorial";
+import { publishedContent } from "@/lib/content/runtime";
 import { SiteFooter, SiteHeader } from "../components/site-shell";
 
 export const metadata: Metadata = {
@@ -10,7 +11,13 @@ export const metadata: Metadata = {
   description: "Source-linked updates in agent security, evaluation, standards, and release assurance.",
 };
 
-export default function NewsPage() {
+export const revalidate = 900;
+
+export default async function NewsPage() {
+  const [latestNews, latestDaily] = await Promise.all([
+    publishedContent("news/latest.json", localLatestNews),
+    publishedContent("daily/latest.json", localLatestDaily),
+  ]);
   return (
     <>
       <SiteHeader />
