@@ -36,7 +36,7 @@ export default async function Home() {
               <a className="button button-outline button-large" href={github} target="_blank" rel="noreferrer">View source on GitHub</a>
             </div>
             <div className="hero-proof">
-              <div><strong>18</strong><span>acceptance tests<br />running in CI</span></div>
+              <div><strong>20</strong><span>acceptance tests<br />running in CI</span></div>
               <div><strong>100%</strong><span>open and<br />self-hostable</span></div>
               <div><strong>0</strong><span>proprietary host<br />runtime bindings</span></div>
             </div>
