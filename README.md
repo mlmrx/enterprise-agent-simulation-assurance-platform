@@ -38,6 +38,9 @@ conformant HIGH-RISK production deployment.
 ## Public product surfaces
 
 - `/` — enterprise landing page and embedded live campaign proof.
+- `/what-is-easap` — category explainer: what EASAP is, what it is not, and how its evidence chain works.
+- `/guides` — function-based guide hub for engineering, security, governance, and release teams.
+- `/guides/{role}` — role-specific workflow, outputs, checklist, and handoff instructions.
 - `/assess` — immediate release-readiness utility with downloadable JSON and
   Markdown assurance plans; no account or production connection required.
 - `/platform` — executable assurance workbench with downloadable evidence JSON.

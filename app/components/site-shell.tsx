@@ -10,9 +10,9 @@ export function SiteHeader() {
         <span><strong>EASAP</strong><small>Agent assurance infrastructure</small></span>
       </Link>
       <nav aria-label="Main navigation">
+        <Link href="/what-is-easap">What is EASAP?</Link>
+        <Link href="/guides">Guides</Link>
         <Link href="/assess">Readiness planner</Link>
-        <Link href="/#why-care">Why EASAP</Link>
-        <Link href="/#how-it-works">How it works</Link>
         <Link href="/platform">Live platform</Link>
         <Link href="/news">Intelligence</Link>
       </nav>
@@ -36,6 +36,8 @@ export function SiteFooter() {
       </div>
       <div className="footer-links">
         <span>Product</span>
+        <Link href="/what-is-easap">What is EASAP?</Link>
+        <Link href="/guides">Function guides</Link>
         <Link href="/assess">Readiness planner</Link>
         <Link href="/platform">Live workbench</Link>
         <Link href="/insights">Insights</Link>

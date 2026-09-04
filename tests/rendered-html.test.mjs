@@ -79,6 +79,8 @@ test("server-renders the enterprise landing page and product metadata", async ()
   assert.match(html, /What value you get/i);
   assert.match(html, /Who it is built for/i);
   assert.match(html, /Which companies benefit/i);
+  assert.match(html, /What is EASAP\?/i);
+  assert.match(html, /Function guides/i);
   assert.match(html, /github\.com\/mlmrx\/enterprise-agent-simulation-assurance-platform/i);
   assert.match(html, /\/og\.png/i);
 });
@@ -86,6 +88,12 @@ test("server-renders the enterprise landing page and product metadata", async ()
 test("renders platform, editorial, intelligence, and daily brief surfaces", async () => {
   const pages = [
     ["/assess", /Agent Release.*Readiness Planner/is],
+    ["/what-is-easap", /The control plane between an AI agent/i],
+    ["/guides", /One platform/i],
+    ["/guides/ai-engineering", /Turn an agent build into an executable candidate/i],
+    ["/guides/security-red-team", /Turn adversarial findings into repeatable release evidence/i],
+    ["/guides/risk-governance", /Make agent governance reviewable/i],
+    ["/guides/product-release", /Replace launch debate with a bounded ship decision/i],
     ["/platform", /Run the assurance chain/i],
     ["/insights", /Operational thinking for/i],
     ["/news", /Signal for agent/i],
