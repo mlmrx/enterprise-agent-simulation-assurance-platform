@@ -67,11 +67,15 @@ test("server-renders the enterprise landing page and product metadata", async ()
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>EASAP \| Enterprise Agent Assurance<\/title>/i);
-  assert.match(html, /Ship agents with/i);
-  assert.match(html, /evidence, not optimism/i);
-  assert.match(html, /Run the live assurance campaign/i);
-  assert.match(html, /Six connected planes/i);
+  assert.match(html, /<title>EASAP \| Evidence Before Agent Authority<\/title>/i);
+  assert.match(html, /Know what your AI agent will do/i);
+  assert.match(html, /before you let it act/i);
+  assert.match(html, /Run a real assurance campaign/i);
+  assert.match(html, /Why you should care/i);
+  assert.match(html, /How it works/i);
+  assert.match(html, /What value you get/i);
+  assert.match(html, /Who it is built for/i);
+  assert.match(html, /Which companies benefit/i);
   assert.match(html, /github\.com\/mlmrx\/enterprise-agent-simulation-assurance-platform/i);
   assert.match(html, /\/og\.png/i);
 });

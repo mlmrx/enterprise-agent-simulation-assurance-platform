@@ -4,9 +4,9 @@ import "./globals.css";
 export function generateMetadata(): Metadata {
   const configuredOrigin = process.env.EASAP_PUBLIC_URL || "http://localhost:3000";
   const origin = new URL(configuredOrigin).origin;
-  const title = "EASAP | Enterprise Agent Assurance";
+  const title = "EASAP | Evidence Before Agent Authority";
   const description =
-    "Release assurance, adversarial simulation, and signed evidence for consequential enterprise agents.";
+    "Stress-test the complete AI agent system, reproduce failures, and turn signed evidence into a defensible release decision.";
 
   return {
     metadataBase: new URL(origin),
@@ -23,7 +23,7 @@ export function generateMetadata(): Metadata {
       title,
       description,
       siteName: "EASAP",
-      images: [{ url: `${origin}/og.png`, width: 1734, height: 907, alt: "EASAP release assurance for consequential agents" }],
+      images: [{ url: `${origin}/og.png`, width: 1734, height: 907, alt: "EASAP evidence-led release assurance for consequential agents" }],
     },
     twitter: {
       card: "summary_large_image",

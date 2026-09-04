@@ -2,6 +2,7 @@ export function SystemVisual() {
   return (
     <div className="system-visual" aria-label="Animated assurance system diagram">
       <div className="visual-grid" />
+      <div className="visual-kicker"><i /> CONTROLLED CAMPAIGN <span>RUNNING</span></div>
       <div className="orbit orbit-one" />
       <div className="orbit orbit-two" />
       <div className="agent-core">
@@ -15,6 +16,7 @@ export function SystemVisual() {
       <div className="signal-node node-evidence"><span>04</span><strong>Evidence</strong><small>trace sealed</small></div>
       <div className="moving-packet packet-a" />
       <div className="moving-packet packet-b" />
+      <div className="visual-verdict"><small>RELEASE POSTURE</small><strong>CONDITIONAL</strong><span>3 controls required</span></div>
       <div className="visual-readout">
         <span><i className="green" /> deterministic replay</span>
         <code>trace_7f2a91cd</code>

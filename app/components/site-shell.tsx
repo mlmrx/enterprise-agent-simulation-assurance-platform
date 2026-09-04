@@ -6,13 +6,14 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <Link className="site-brand" href="/" aria-label="EASAP home">
-        <span className="site-mark"><i /><i /><i /></span>
+        <span className="site-mark" aria-hidden="true"><b>✓</b></span>
         <span><strong>EASAP</strong><small>Agent assurance infrastructure</small></span>
       </Link>
       <nav aria-label="Main navigation">
-        <Link href="/#system">System</Link>
+        <Link href="/#why-care">Why EASAP</Link>
+        <Link href="/#how-it-works">How it works</Link>
+        <Link href="/#who-its-for">Who it’s for</Link>
         <Link href="/platform">Live platform</Link>
-        <Link href="/insights">Insights</Link>
         <Link href="/news">Intelligence</Link>
       </nav>
       <div className="header-actions">
@@ -28,7 +29,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div>
         <Link className="site-brand footer-brand" href="/">
-          <span className="site-mark"><i /><i /><i /></span>
+          <span className="site-mark" aria-hidden="true"><b>✓</b></span>
           <span><strong>EASAP</strong><small>Evidence before authority.</small></span>
         </Link>
         <p>Open, portable infrastructure for testing consequential enterprise agents against realistic worlds, hostile conditions, and explicit release gates.</p>
