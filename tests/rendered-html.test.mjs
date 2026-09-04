@@ -70,7 +70,10 @@ test("server-renders the enterprise landing page and product metadata", async ()
   assert.match(html, /<title>EASAP \| Evidence Before Agent Authority<\/title>/i);
   assert.match(html, /Know what your AI agent will do/i);
   assert.match(html, /before you let it act/i);
-  assert.match(html, /Run a real assurance campaign/i);
+  assert.match(html, /Assess your agent now/i);
+  assert.match(html, /Use it immediately/i);
+  assert.match(html, /Build your release gate/i);
+  assert.match(html, /href="\/assess"/i);
   assert.match(html, /Why you should care/i);
   assert.match(html, /How it works/i);
   assert.match(html, /What value you get/i);
@@ -82,6 +85,7 @@ test("server-renders the enterprise landing page and product metadata", async ()
 
 test("renders platform, editorial, intelligence, and daily brief surfaces", async () => {
   const pages = [
+    ["/assess", /Agent Release.*Readiness Planner/is],
     ["/platform", /Run the assurance chain/i],
     ["/insights", /Operational thinking for/i],
     ["/news", /Signal for agent/i],
@@ -139,4 +143,34 @@ test("public workbench executes the real engine without a fixture fallback", asy
   assert.equal(payload.data.evidence.verified, true);
   assert.ok(payload.data.evidence.resultDigests.length === 8);
   assert.ok(["APPROVED", "CONDITIONAL", "REJECTED"].includes(payload.data.decision.posture));
+});
+
+test("public readiness planner produces an actionable deterministic release gate", async () => {
+  const response = await fetch(`${baseUrl}/api/readiness/assess`, {
+    method: "POST",
+    headers: { "content-type": "application/json", origin: baseUrl },
+    body: JSON.stringify({
+      agentName: "Treasury Operations Agent",
+      description: "Prepares and executes treasury actions with privileged financial data.",
+      useCase: "financial_operations",
+      deploymentStage: "production",
+      autonomy: "autonomous",
+      exposure: "internal",
+      volume: "operational",
+      dataClasses: ["regulated", "credentials"],
+      capabilities: ["financial_transactions", "identity_access"],
+      safeguards: ["audit_logging"],
+    }),
+  });
+  const body = await response.text();
+  assert.equal(response.status, 200, body);
+  const payload = JSON.parse(body);
+  assert.equal(payload.meta.execution, "deterministic-readiness-engine");
+  assert.equal(payload.meta.persisted, false);
+  assert.equal(payload.data.risk.tier, "CRITICAL");
+  assert.equal(payload.data.readiness.status, "GATE DESIGN INCOMPLETE");
+  assert.ok(payload.data.requiredControls.length >= 7);
+  assert.ok(payload.data.scenarioPack.length >= 5);
+  assert.ok(payload.data.releaseGate.blockingControlGaps.includes("human_approval"));
+  assert.match(payload.data.inputDigest, /^sha256:[a-f0-9]{64}$/);
 });

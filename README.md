@@ -28,12 +28,18 @@ conformant HIGH-RISK production deployment.
 - A role-aware assurance console and the normative `/v1` API surface.
 - A public live workbench that executes the real STANDARD campaign engine and
   returns verifiable evidence rather than substituting a canned result.
+- A deterministic Agent Release Readiness Planner that converts an agent's
+  authority, data exposure, autonomy, deployment stage, and existing safeguards
+  into an inherent-risk tier, open control map, targeted scenario pack,
+  role-specific actions, and a machine-readable release-gate policy.
 - An enterprise product surface with technical insights, a primary-source news
   desk, and a deterministic daily operator brief.
 
 ## Public product surfaces
 
 - `/` — enterprise landing page and embedded live campaign proof.
+- `/assess` — immediate release-readiness utility with downloadable JSON and
+  Markdown assurance plans; no account or production connection required.
 - `/platform` — executable assurance workbench with downloadable evidence JSON.
 - `/insights` — original technical field notes for release and risk teams.
 - `/news` — source-linked agent security, standards, and evaluation intelligence.
@@ -145,6 +151,8 @@ See [architecture](docs/architecture.md), [security](docs/security.md),
 The implementation preserves the reference endpoints from EASAP-PS-001 and adds
 read/status operations needed by an actual console:
 
+- `POST /api/readiness/assess` — public, non-persistent readiness planning endpoint.
+- `POST /api/demo/run` — bounded public execution of the real reference campaign.
 - `POST /v1/subjects`
 - `POST /v1/worlds`
 - `POST /v1/scenarios:validate`

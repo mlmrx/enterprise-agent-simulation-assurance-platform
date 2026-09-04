@@ -20,6 +20,7 @@ export default function PlatformPage() {
     <>
       <SiteHeader />
       <main className="workbench-page">
+        <div className="utility-banner"><span>Testing your own agent?</span><strong>Start with the readiness planner to generate its required controls and scenario pack.</strong><Link href="/assess">Assess your agent →</Link></div>
         <section className="workbench-hero">
           <div>
             <span className="section-label"><i /> Public execution cell</span>

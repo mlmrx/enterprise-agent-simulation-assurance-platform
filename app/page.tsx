@@ -97,8 +97,8 @@ export default async function Home() {
             <h1>Know what your AI agent will do <em>before you let it act.</em></h1>
             <p>EASAP stress-tests the exact agent system—model, prompts, tools, memory, and policy—in reproducible enterprise scenarios, then turns the results into a release decision and verifiable evidence.</p>
             <div className="hero-actions">
-              <Link className="button button-accent button-large" href="/platform">Run a real assurance campaign <span>↗</span></Link>
-              <a className="button button-outline button-large" href="#how-it-works">See how it works <span>↓</span></a>
+              <Link className="button button-accent button-large" href="/assess">Assess your agent now <span>↗</span></Link>
+              <Link className="button button-outline button-large" href="/platform">Run the live campaign <span>→</span></Link>
             </div>
             <div className="hero-proof" aria-label="Core platform outcomes">
               <div><strong>Test</strong><span>the whole<br />agent system</span></div>
@@ -113,6 +113,21 @@ export default async function Home() {
         <section className="trust-strip" aria-label="Assurance principles">
           <span>Built for systems entrusted with consequential authority</span>
           <div><i /> Exact replay</div><div><i /> Fail-closed effects</div><div><i /> Statistical uncertainty</div><div><i /> Signed evidence</div>
+        </section>
+
+        <section className="utility-now" id="utility">
+          <div className="utility-now-heading">
+            <span className="section-label"><i /> Use it immediately</span>
+            <h2>Turn one agent description into work every assurance team can act on.</h2>
+            <p>No integration, account, or production data required. Describe the authority your agent will receive and leave with an evidence-ready release plan.</p>
+            <Link className="button button-dark button-large" href="/assess">Build your release gate <span>↗</span></Link>
+          </div>
+          <div className="utility-output-chain" aria-label="Immediate readiness planner outputs">
+            <article><span>01 · CLASSIFY</span><strong>Inherent risk tier</strong><p>See which aspects of autonomy, data, reach, and tool authority drive exposure.</p></article>
+            <article><span>02 · CONTROL</span><strong>Gap and owner map</strong><p>Identify required controls, critical blockers, accountable teams, and next deliverables.</p></article>
+            <article><span>03 · TEST</span><strong>Minimum scenario pack</strong><p>Generate concrete adversarial, failure, privacy, and recovery tests for this agent.</p></article>
+            <article><span>04 · GOVERN</span><strong>Downloadable release gate</strong><p>Export decision thresholds, approvals, evidence requirements, and retention as JSON or Markdown.</p></article>
+          </div>
         </section>
 
         <section className="stakes-section" id="why-care">
