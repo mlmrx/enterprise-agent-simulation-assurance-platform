@@ -4,7 +4,7 @@ import { SiteFooter, SiteHeader } from "../components/site-shell";
 
 export const metadata: Metadata = {
   title: "What is EASAP? | Enterprise Agent Assurance",
-  description: "Understand EASAP: an open assurance control plane for testing consequential AI agents and turning evidence into bounded release decisions.",
+  description: "Understand EASAP: open assurance infrastructure for testing consequential AI agents and turning evidence into bounded release decisions.",
 };
 
 const proofLayers = [
@@ -29,7 +29,7 @@ export default function WhatIsEasapPage() {
         <section className="what-hero">
           <div>
             <span className="section-label light"><i /> What is EASAP?</span>
-            <h1>The control plane between an AI agent and the authority you give it.</h1>
+            <h1>The evidence-backed boundary between an AI agent and the authority you give it.</h1>
           </div>
           <div>
             <p>EASAP is open, portable infrastructure for simulating consequential enterprise agents, evaluating their behavior under uncertainty and attack, and producing evidence that supports a bounded release decision.</p>

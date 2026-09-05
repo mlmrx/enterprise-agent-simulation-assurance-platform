@@ -8,7 +8,7 @@ import {
 } from "drizzle-orm/sqlite-core";
 
 /**
- * The SQLite/libSQL schema is the durable control-plane projection. High-volume observation
+ * The SQLite/libSQL schema is the durable assurance projection. High-volume observation
  * payloads belong in the evidence object store in a production deployment; this
  * reference keeps only compact manifests and trace summaries in the database.
  */

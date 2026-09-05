@@ -70,7 +70,7 @@ Legend:
 | HIGH-RISK p95 <= 30 seconds | Dedicated pre-warmed pool design | Production gap |
 | 1 million captured events/s/cluster | Chunked event-bus/object-store design | Production load test gap |
 | Sealed result RPO 0 | Acknowledge-after-durable design | Production replicated-storage proof gap |
-| 99.9% control-plane availability | Multi-zone/SLO design | Production operational proof gap |
+| 99.9% authoring and evidence availability | Multi-zone/SLO design | Production operational proof gap |
 | No cross-tenant access | Tenant predicates and auth tests | Production RLS/network/cache adversarial proof gap |
 | UI-independent portability | JSON contracts, OpenAPI, verifier functions | Implemented |
 

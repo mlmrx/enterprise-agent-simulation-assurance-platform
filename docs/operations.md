@@ -9,7 +9,7 @@
 | Startup | STANDARD p95 <= 5 s; HIGH-RISK p95 <= 30 s | Measure request admission to first harness event, by isolation class |
 | Event throughput | 1 million captured events/s/regional cluster | Durable ingest after backpressure; payloads chunked outside SQL |
 | Result durability | Sealed result RPO 0 | Acknowledge only after replicated immutable evidence and manifest are durable |
-| Availability | 99.9% authoring/control | Multi-zone control plane; execution saturation is explicit, never reported as success |
+| Availability | 99.9% authoring/evidence | Multi-zone assurance service; execution saturation is explicit, never reported as success |
 | Isolation | No cross-tenant network/storage/credential/cache access | Continuous adversarial isolation probes and tenant-scoped data paths |
 | Portability | Export without proprietary UI state | Versioned JSON/JSONL bundles plus signatures and verifier metadata |
 
@@ -46,7 +46,7 @@ Key metrics:
 
 | SLO | Window | Page condition |
 |---|---|---|
-| Control-plane availability >= 99.9% | Rolling 30 days | Fast burn consumes 2% monthly budget in 1 hour |
+| Assurance service availability >= 99.9% | Rolling 30 days | Fast burn consumes 2% monthly budget in 1 hour |
 | Sealed-result loss = 0 | Immediate | Any acknowledged manifest or chunk is missing/unverifiable |
 | Deterministic replay divergence = 0 | Per supported harness version | Any golden or customer-requested exact replay diverges |
 | Revocation propagation <= configured SLO | Per revocation | Any connected gate accepts after deadline |
@@ -117,7 +117,7 @@ the primary signing service and validate key-revocation/reissuance procedures.
   shipped as a reproducible signed artifact.
 - Schema changes are expand/migrate/contract. Old workers remain readable during
   rollout; evidence records are never rewritten in place.
-- Canary the control plane on synthetic tenants, then execution pools by isolation
+- Canary the assurance service on synthetic tenants, then execution pools by isolation
   class. Stop rollout on replay divergence, observation loss, signature failure, or
   isolation-probe regression.
 - Any harness, oracle, model gateway, policy, connector, or runtime dependency change

@@ -13,7 +13,7 @@ revocation state.
 
 Assume malicious evaluated subjects, malicious dependencies, prompt/tool-injected
 users, colluding agents, compromised scenario artifacts, curious tenant users,
-operator error, insider abuse, and compromised execution workers. The control plane,
+operator error, insider abuse, and compromised execution workers. The assurance service,
 execution plane, evidence verifier, and signing service are separate trust domains.
 
 ## Roles and separation of duties
@@ -159,7 +159,7 @@ verification. Production uses asymmetric keys in KMS/HSM:
 
 ## Supply chain
 
-- Pin dependencies and base images; generate SBOM and provenance for control plane,
+- Pin dependencies and base images; generate SBOM and provenance for assurance services,
   workers, scenario plug-ins, and subject bundles.
 - Sign artifacts and verify signature/provenance at admission.
 - Run SAST, dependency review, secret scanning, image scanning, and isolated dynamic

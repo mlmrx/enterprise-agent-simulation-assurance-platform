@@ -120,13 +120,13 @@ prompt/tool injection, budget exhaustion, and attempted data exfiltration.
 
 ## Architecture
 
-The local build is a modular control plane with a replaceable execution boundary:
+The local build is a modular assurance service with a replaceable execution boundary:
 
 - `app/` - operator console and HTTP route adapter.
 - `lib/easap/` - portable domain contracts, deterministic runtime, evaluation,
   evidence signing, assurance, revocation, and incident regression.
 - `lib/platform/` - identity, authorization, HTTP, and durable SQLite/libSQL projections.
-- `db/` and `drizzle/` - append-friendly control-plane schema and migration.
+- `db/` and `drizzle/` - append-friendly assurance schema and migration.
 - `openapi/` - versioned external API contract.
 - `docs/` - production architecture, security, operations, and spec traceability.
 - `deploy/` - local dependency topology and production Kubernetes reference manifests.

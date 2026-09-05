@@ -88,7 +88,7 @@ test("server-renders the enterprise landing page and product metadata", async ()
 test("renders platform, editorial, intelligence, and daily brief surfaces", async () => {
   const pages = [
     ["/assess", /Agent Release.*Readiness Planner/is],
-    ["/what-is-easap", /The control plane between an AI agent/i],
+    ["/what-is-easap", /The evidence-backed boundary between an AI agent/i],
     ["/guides", /One platform/i],
     ["/guides/ai-engineering", /Turn an agent build into an executable candidate/i],
     ["/guides/security-red-team", /Turn adversarial findings into repeatable release evidence/i],

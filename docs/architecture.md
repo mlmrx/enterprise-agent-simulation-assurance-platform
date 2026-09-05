@@ -12,7 +12,7 @@ scale or HIGH-RISK isolation.
 4. Deterministic components must reproduce the same harness-visible trace.
 5. Evaluation code and oracles remain independent from subject code.
 6. Evidence is append-only, chained, signed, exportable, and independently verifiable.
-7. Authoring/control availability is isolated from execution capacity degradation.
+7. Authoring and evidence availability is isolated from execution capacity degradation.
 8. Tenant, classification, and isolation boundaries are enforced at every layer.
 
 ## System context
@@ -26,7 +26,7 @@ flowchart LR
   ReleaseAuthority["Release authority"] --> Console
   Auditor["Auditor / independent verifier"] --> Verify["Verifier CLI / API"]
 
-  Console --> Control["EASAP control plane"]
+  Console --> Control["EASAP assurance layer"]
   Control --> Execution["Trust-bounded execution plane"]
   Execution --> Evidence["Immutable evidence plane"]
   Control --> Evidence
@@ -62,7 +62,7 @@ Additional supporting contexts:
   derivation, and publication approval.
 - Capacity and operations: quotas, admission, saturation, telemetry, retention, and DR.
 
-The control plane begins as a modular deployment. Execution is separate from day one
+The assurance layer begins as a modular deployment. Execution is separate from day one
 because it has a distinct trust boundary and scaling model. Other contexts split into
 services only when isolation, ownership, or load justifies the operational cost.
 
@@ -70,10 +70,10 @@ services only when isolation, ownership, or load justifies the operational cost.
 
 ```mermaid
 flowchart TB
-  subgraph Edge["Regional control-plane cell"]
+  subgraph Edge["Regional assurance cell"]
     Gateway["API gateway + WAF"]
     Console["Assurance console"]
-    API["Control-plane API"]
+    API["Assurance API"]
     Policy["Policy decision point"]
     Orchestrator["Workflow orchestrator"]
     Postgres[("PostgreSQL HA + tenant RLS")]
@@ -137,7 +137,7 @@ flowchart TB
 
 ### Network boundaries
 
-- Control-plane ingress terminates at an API gateway with tenant-aware rate limits,
+- Assurance ingress terminates at an API gateway with tenant-aware rate limits,
   request IDs, body limits, and threat filtering.
 - Execution cells have no route to the management plane. They receive sealed bundles
   through a one-way staging channel and emit observations through an authenticated
@@ -155,7 +155,7 @@ flowchart TB
 sequenceDiagram
   autonumber
   participant Dev as Agent developer
-  participant API as Control-plane API
+  participant API as Assurance API
   participant Reg as Immutable registries
   participant Orch as Campaign orchestrator
   participant Cell as Execution cell
