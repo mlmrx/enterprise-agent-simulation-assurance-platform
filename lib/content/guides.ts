@@ -20,7 +20,7 @@ export const audienceGuides: AudienceGuide[] = [
     dek: "Use EASAP to bind the exact system, declare its authority, and give every later test a stable subject.",
     audience: "AI platform engineers, application engineers, and quality teams",
     outcome: "A version-bound candidate manifest and an executable assurance campaign.",
-    firstAction: "Start with the Readiness Planner. Select every tool, data class, and effect the agent can reach—even if the path is rarely used.",
+    firstAction: "If the agent already has a public endpoint, verify it in the connector and run the live baseline. For a pre-release agent, start with the Readiness Planner.",
     outputs: ["Candidate manifest", "Capability boundary", "Scenario adapter", "Regression gate"],
     steps: [
       { title: "Describe the authority", copy: "Capture autonomy, exposure, data, scale, and actions. Treat this as the system contract, not a product description." },
@@ -38,7 +38,7 @@ export const audienceGuides: AudienceGuide[] = [
     dek: "Use EASAP to attack the authority boundary, minimize failures, and show exactly what must be fixed before release.",
     audience: "Application security, product security, red teams, and incident responders",
     outcome: "A prioritized scenario pack, replayable findings, and evidence-backed blockers.",
-    firstAction: "Run the planner with the broadest credible authority. Treat customer-facing, privileged, and write-capable paths as in-scope by default.",
+    firstAction: "Verify the public agent endpoint and capture the four-check live baseline. Then expand from observed responses into the broader threat-driven campaign.",
     outputs: ["Threat-driven scenarios", "Causal traces", "Minimized regression", "Blocking findings"],
     steps: [
       { title: "Start from consequences", copy: "Map what the agent can change, disclose, transact, or operate—not only which prompts it can answer." },

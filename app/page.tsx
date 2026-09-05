@@ -95,10 +95,10 @@ export default async function Home() {
           <div className="hero-copy">
             <span className="section-label"><i /> Enterprise agent release assurance</span>
             <h1>Know what your AI agent will do <em>before you let it act.</em></h1>
-            <p>EASAP stress-tests the exact agent system—model, prompts, tools, memory, and policy—in reproducible enterprise scenarios, then turns the results into a release decision and verifiable evidence.</p>
+            <p>Connect a verified public agent or bring its full system manifest. EASAP challenges the real boundary, records what happens, and turns observed behavior into reviewable release evidence.</p>
             <div className="hero-actions">
-              <Link className="button button-accent button-large" href="/assess">Assess your agent now <span>↗</span></Link>
-              <Link className="button button-outline button-large" href="/platform">Run the live campaign <span>→</span></Link>
+              <Link className="button button-accent button-large" href="/connect">Connect your agent <span>↗</span></Link>
+              <Link className="button button-outline button-large" href="/assess">Plan before integration <span>→</span></Link>
             </div>
             <div className="hero-proof" aria-label="Core platform outcomes">
               <div><strong>Test</strong><span>the whole<br />agent system</span></div>
@@ -118,15 +118,15 @@ export default async function Home() {
         <section className="utility-now" id="utility">
           <div className="utility-now-heading">
             <span className="section-label"><i /> Use it immediately</span>
-            <h2>Turn one agent description into work every assurance team can act on.</h2>
-            <p>No integration, account, or production data required. Describe the authority your agent will receive and leave with an evidence-ready release plan.</p>
-            <Link className="button button-dark button-large" href="/assess">Build your release gate <span>↗</span></Link>
+            <h2>Put a verified public agent through a real baseline.</h2>
+            <p>Prove control of the endpoint, run four bounded black-box checks, and download the observed response evidence. No account, platform migration, or stored credentials.</p>
+            <div className="hero-actions"><Link className="button button-dark button-large" href="/connect">Test a public agent <span>↗</span></Link><Link className="button button-outline button-large" href="/assess">Build a readiness plan</Link></div>
           </div>
-          <div className="utility-output-chain" aria-label="Immediate readiness planner outputs">
-            <article><span>01 · CLASSIFY</span><strong>Inherent risk tier</strong><p>See which aspects of autonomy, data, reach, and tool authority drive exposure.</p></article>
-            <article><span>02 · CONTROL</span><strong>Gap and owner map</strong><p>Identify required controls, critical blockers, accountable teams, and next deliverables.</p></article>
-            <article><span>03 · TEST</span><strong>Minimum scenario pack</strong><p>Generate concrete adversarial, failure, privacy, and recovery tests for this agent.</p></article>
-            <article><span>04 · GOVERN</span><strong>Downloadable release gate</strong><p>Export decision thresholds, approvals, evidence requirements, and retention as JSON or Markdown.</p></article>
+          <div className="utility-output-chain" aria-label="Immediate public-agent connector outputs">
+            <article><span>01 · VERIFY</span><strong>Ownership challenge</strong><p>Demonstrate control through a short-lived file at the agent’s public origin before any probe runs.</p></article>
+            <article><span>02 · CONNECT</span><strong>Live contract handshake</strong><p>Confirm that the declared endpoint and response contract work against the deployed agent.</p></article>
+            <article><span>03 · CHALLENGE</span><strong>Bounded safety baseline</strong><p>Check override resistance, false-action claims, and sensitive-data boundary responses.</p></article>
+            <article><span>04 · EXPORT</span><strong>Observed evidence report</strong><p>Download response excerpts, digests, latency, findings, and explicit limitations as JSON.</p></article>
           </div>
         </section>
 

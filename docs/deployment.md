@@ -21,6 +21,7 @@ Configuration:
 | `EASAP_PUBLIC_URL` | `http://localhost:3000` | Trusted public origin used in metadata |
 | `EASAP_AUTH_MODE` | `local` | `local`, `shared-token`, or `trusted-proxy` |
 | `EASAP_API_TOKEN` | empty | Required bearer value in `shared-token` mode |
+| `EASAP_TARGET_TOKEN_SECRET` | development-only fallback | Minimum 32-character secret for public-target setup and verification tokens; required in production |
 
 ## Local Node.js
 
@@ -54,6 +55,7 @@ Hosts with ephemeral filesystems must use remote libSQL:
 DATABASE_URL=libsql://database.example
 DATABASE_AUTH_TOKEN=<remote-token>
 EASAP_PUBLIC_URL=https://assurance.example.com
+EASAP_TARGET_TOKEN_SECRET=<random-secret-at-least-32-characters>
 ```
 
 Use the host's standard Next.js build command (`npm run build`) and start command

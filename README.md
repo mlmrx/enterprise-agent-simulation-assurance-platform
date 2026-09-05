@@ -32,6 +32,9 @@ conformant HIGH-RISK production deployment.
   authority, data exposure, autonomy, deployment stage, and existing safeguards
   into an inherent-risk tier, open control map, targeted scenario pack,
   role-specific actions, and a machine-readable release-gate policy.
+- A verified public-agent connector that proves endpoint control through a
+  short-lived `/.well-known` challenge, rejects private and reserved networks,
+  runs four bounded black-box prompts, and exports the observed response evidence.
 - An enterprise product surface with technical insights, a primary-source news
   desk, and a deterministic daily operator brief.
 
@@ -43,6 +46,8 @@ conformant HIGH-RISK production deployment.
 - `/guides/{role}` — role-specific workflow, outputs, checklist, and handoff instructions.
 - `/assess` — immediate release-readiness utility with downloadable JSON and
   Markdown assurance plans; no account or production connection required.
+- `/connect` — bring-your-own-agent workflow for an authorized public HTTPS
+  endpoint, including ownership verification and a downloadable live probe report.
 - `/platform` — executable assurance workbench with downloadable evidence JSON.
 - `/insights` — original technical field notes for release and risk teams.
 - `/news` — source-linked agent security, standards, and evaluation intelligence.
@@ -76,6 +81,12 @@ isolated SQLite database at `data/easap.db`. On localhost, the API uses a clearl
 marked all-roles reference identity so the complete flow can be exercised without
 an external identity provider. Copy `.env.example` when you need to override the
 database, public URL, or remote authentication mode.
+
+The public-agent connector also uses `EASAP_TARGET_TOKEN_SECRET` to sign its
+short-lived, stateless setup and verification tokens. Production deployments must
+set this to a random value of at least 32 characters. EASAP never places endpoint
+credentials inside these tokens and the hosted public connector does not accept
+API keys, cookies, or arbitrary headers.
 
 Run the same build in a portable container:
 
@@ -156,6 +167,11 @@ read/status operations needed by an actual console:
 
 - `POST /api/readiness/assess` — public, non-persistent readiness planning endpoint.
 - `POST /api/demo/run` — bounded public execution of the real reference campaign.
+- `POST /api/targets/register` — validate a public endpoint and issue a signed,
+  short-lived ownership challenge.
+- `POST /api/targets/verify` — fetch and verify the exact `/.well-known` challenge.
+- `POST /api/targets/run` — run the four-check baseline against a verified target
+  and return response excerpts, digests, latency, findings, and limitations.
 - `POST /v1/subjects`
 - `POST /v1/worlds`
 - `POST /v1/scenarios:validate`

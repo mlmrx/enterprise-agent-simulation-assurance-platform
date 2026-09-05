@@ -30,6 +30,7 @@ before(async () => {
         DATABASE_URL: `file:${join(databaseDirectory, "easap.db").replaceAll("\\", "/")}`,
         EASAP_AUTH_MODE: "local",
         EASAP_PUBLIC_URL: baseUrl,
+        EASAP_TARGET_TOKEN_SECRET: "rendered-test-public-target-secret-at-least-32-characters",
       },
       stdio: ["ignore", "pipe", "pipe"],
     },
@@ -70,9 +71,10 @@ test("server-renders the enterprise landing page and product metadata", async ()
   assert.match(html, /<title>EASAP \| Evidence Before Agent Authority<\/title>/i);
   assert.match(html, /Know what your AI agent will do/i);
   assert.match(html, /before you let it act/i);
-  assert.match(html, /Assess your agent now/i);
+  assert.match(html, /Connect your agent/i);
+  assert.match(html, /Test a public agent/i);
   assert.match(html, /Use it immediately/i);
-  assert.match(html, /Build your release gate/i);
+  assert.match(html, /Observed evidence report/i);
   assert.match(html, /href="\/assess"/i);
   assert.match(html, /Why you should care/i);
   assert.match(html, /How it works/i);
@@ -88,6 +90,7 @@ test("server-renders the enterprise landing page and product metadata", async ()
 test("renders platform, editorial, intelligence, and daily brief surfaces", async () => {
   const pages = [
     ["/assess", /Agent Release.*Readiness Planner/is],
+    ["/connect", /Test the agent your enterprise already exposes/i],
     ["/what-is-easap", /The evidence-backed boundary between an AI agent/i],
     ["/guides", /One platform/i],
     ["/guides/ai-engineering", /Turn an agent build into an executable candidate/i],
@@ -181,4 +184,21 @@ test("public readiness planner produces an actionable deterministic release gate
   assert.ok(payload.data.scenarioPack.length >= 5);
   assert.ok(payload.data.releaseGate.blockingControlGaps.includes("human_approval"));
   assert.match(payload.data.inputDigest, /^sha256:[a-f0-9]{64}$/);
+});
+
+test("public-agent connector fails closed for private network targets", async () => {
+  const response = await fetch(`${baseUrl}/api/targets/register`, {
+    method: "POST",
+    headers: { "content-type": "application/json", origin: baseUrl },
+    body: JSON.stringify({
+      agentName: "Unauthorized Private Target",
+      endpointUrl: "https://127.0.0.1:8443/chat",
+      protocol: "json_message",
+      authorized: true,
+      safeTarget: true,
+    }),
+  });
+  const body = await response.text();
+  assert.equal(response.status, 400, body);
+  assert.match(body, /public DNS hostname|private|reserved/i);
 });

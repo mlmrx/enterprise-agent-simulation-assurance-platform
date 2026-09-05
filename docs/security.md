@@ -108,6 +108,26 @@ subject adapters. It is not a sandbox for arbitrary untrusted binaries.
 - Copy/export requires purpose-bound authorization and visible warning/watermark.
 - Direct promotion into production prompts, policies, tools, or memories is forbidden.
 
+### Public-target connector abuse and SSRF
+
+- Accept only HTTPS URLs with public DNS hostnames; reject IP literals, credentials
+  in URLs, localhost-style names, and any DNS answer in private, loopback,
+  link-local, documentation, multicast, or reserved ranges.
+- Re-resolve and re-check the target before ownership verification and before every
+  probe request. Never follow redirects from either the well-known challenge or the
+  agent endpoint.
+- Require an exact, short-lived challenge at
+  `/.well-known/easap-verification.txt` before issuing a signed probe token.
+- Keep setup and verified-target tokens short-lived, HMAC-signed, stateless, and
+  free of API keys, cookies, bearer values, or other endpoint credentials.
+- Permit only fixed, read-only JSON probe contracts with response-size and timeout
+  bounds. Do not accept caller-defined headers, request bodies, or prompts on the
+  hosted public connector.
+- Treat the current DNS validation as a bounded public reference control. A
+  production enterprise connector should additionally pin resolution at a
+  controlled egress proxy to close the DNS-rebinding race between validation and
+  socket establishment.
+
 ## Capability security model
 
 A trial capability is an unforgeable, short-lived grant binding:

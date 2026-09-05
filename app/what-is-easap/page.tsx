@@ -33,7 +33,7 @@ export default function WhatIsEasapPage() {
           </div>
           <div>
             <p>EASAP is open, portable infrastructure for simulating consequential enterprise agents, evaluating their behavior under uncertainty and attack, and producing evidence that supports a bounded release decision.</p>
-            <div className="what-hero-actions"><Link className="button button-accent" href="/assess">Build a release plan</Link><Link className="text-link light-link" href="/guides">Choose your team’s guide <span>↗</span></Link></div>
+            <div className="what-hero-actions"><Link className="button button-accent" href="/connect">Test a public agent</Link><Link className="text-link light-link" href="/guides">Choose your team’s guide <span>↗</span></Link></div>
           </div>
         </section>
 
@@ -51,7 +51,7 @@ export default function WhatIsEasapPage() {
 
         <section className="what-roles"><div><span className="section-label light">Who uses it</span><h2>Different jobs. One evidence language.</h2><p>Engineering builds the candidate. Security challenges it. Governance defines the boundary. Release leaders decide whether the evidence is sufficient.</p></div><div className="role-path"><Link href="/guides/ai-engineering"><span>01</span><strong>AI engineering</strong><small>Bind and run the candidate →</small></Link><Link href="/guides/security-red-team"><span>02</span><strong>Security & red team</strong><small>Attack and minimize failures →</small></Link><Link href="/guides/risk-governance"><span>03</span><strong>Risk & governance</strong><small>Set evidence and approvals →</small></Link><Link href="/guides/product-release"><span>04</span><strong>Product & release</strong><small>Make the bounded decision →</small></Link></div></section>
 
-        <section className="what-cta"><span className="section-label"><i /> Start with your real authority model</span><h2>See what your agent needs<br /><em>before it needs access.</em></h2><div><Link className="button button-dark button-large" href="/assess">Open the readiness planner</Link><Link className="button button-outline button-large" href="/platform">Run the reference campaign</Link></div></section>
+        <section className="what-cta"><span className="section-label"><i /> Start with the boundary you have</span><h2>Connect a live agent or plan<br /><em>before it gets access.</em></h2><div><Link className="button button-dark button-large" href="/connect">Connect a public agent</Link><Link className="button button-outline button-large" href="/assess">Open the readiness planner</Link></div></section>
       </main>
       <SiteFooter />
     </>

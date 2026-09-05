@@ -11,14 +11,14 @@ export function SiteHeader() {
       </Link>
       <nav aria-label="Main navigation">
         <Link href="/what-is-easap">What is EASAP?</Link>
+        <Link href="/connect">Connect agent</Link>
         <Link href="/guides">Guides</Link>
         <Link href="/assess">Readiness planner</Link>
-        <Link href="/platform">Live platform</Link>
         <Link href="/news">Intelligence</Link>
       </nav>
       <div className="header-actions">
         <a className="github-link" href={github} target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
-        <Link className="button button-dark" href="/assess">Assess your agent</Link>
+        <Link className="button button-dark" href="/connect">Test your agent</Link>
       </div>
     </header>
   );
@@ -37,6 +37,7 @@ export function SiteFooter() {
       <div className="footer-links">
         <span>Product</span>
         <Link href="/what-is-easap">What is EASAP?</Link>
+        <Link href="/connect">Public agent connector</Link>
         <Link href="/guides">Function guides</Link>
         <Link href="/assess">Readiness planner</Link>
         <Link href="/platform">Live workbench</Link>
