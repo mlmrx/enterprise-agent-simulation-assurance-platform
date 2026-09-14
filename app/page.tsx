@@ -72,7 +72,7 @@ const companyProfiles = [
   },
 ];
 
-const controlPlanes = [
+const assuranceLayers = [
   ["World", "Versioned enterprise state, actors, resources, clocks, and uncertainty."],
   ["Scenario", "Typed events, invariants, faults, adversaries, and termination rules."],
   ["Execution", "Seeded harness, capability mediation, protocol emulation, and replay."],
@@ -97,8 +97,8 @@ export default async function Home() {
             <h1>Know what your AI agent will do <em>before you let it act.</em></h1>
             <p>Connect a verified public agent or bring its full system manifest. EASAP challenges the real boundary, records what happens, and turns observed behavior into reviewable release evidence.</p>
             <div className="hero-actions">
-              <Link className="button button-accent button-large" href="/connect">Connect your agent <span>↗</span></Link>
-              <Link className="button button-outline button-large" href="/assess">Plan before integration <span>→</span></Link>
+              <Link className="button button-accent button-large" href="/assess">Assess an agent <span>↗</span></Link>
+              <Link className="button button-outline button-large" href="/platform">Run the live proof <span>→</span></Link>
             </div>
             <div className="hero-proof" aria-label="Core platform outcomes">
               <div><strong>Test</strong><span>the whole<br />agent system</span></div>
@@ -118,15 +118,15 @@ export default async function Home() {
         <section className="utility-now" id="utility">
           <div className="utility-now-heading">
             <span className="section-label"><i /> Use it immediately</span>
-            <h2>Put a verified public agent through a real baseline.</h2>
-            <p>Prove control of the endpoint, run four bounded black-box checks, and download the observed response evidence. No account, platform migration, or stored credentials.</p>
-            <div className="hero-actions"><Link className="button button-dark button-large" href="/connect">Test a public agent <span>↗</span></Link><Link className="button button-outline button-large" href="/assess">Build a readiness plan</Link></div>
+            <h2>Leave with a release plan your teams can use today.</h2>
+            <p>Describe the agent’s authority once. Get its risk tier, open controls, minimum scenarios, accountable owners, approvals, and machine-readable release gate—without an account or integration.</p>
+            <div className="hero-actions"><Link className="button button-dark button-large" href="/assess">Generate the plan <span>↗</span></Link><Link className="button button-outline button-large" href="/connect">Already have a public agent?</Link></div>
           </div>
           <div className="utility-output-chain" aria-label="Immediate public-agent connector outputs">
-            <article><span>01 · VERIFY</span><strong>Ownership challenge</strong><p>Demonstrate control through a short-lived file at the agent’s public origin before any probe runs.</p></article>
-            <article><span>02 · CONNECT</span><strong>Live contract handshake</strong><p>Confirm that the declared endpoint and response contract work against the deployed agent.</p></article>
-            <article><span>03 · CHALLENGE</span><strong>Bounded safety baseline</strong><p>Check override resistance, false-action claims, and sensitive-data boundary responses.</p></article>
-            <article><span>04 · EXPORT</span><strong>Observed evidence report</strong><p>Download response excerpts, digests, latency, findings, and explicit limitations as JSON.</p></article>
+            <article><span>01 · CLASSIFY</span><strong>Inherent-risk tier</strong><p>See which aspects of authority, data, autonomy, exposure, and scale drive the release profile.</p></article>
+            <article><span>02 · ASSIGN</span><strong>Control gaps + owners</strong><p>Turn missing safeguards into concrete work for engineering, security, governance, and release teams.</p></article>
+            <article><span>03 · CHALLENGE</span><strong>Minimum scenario pack</strong><p>Start from the failures and adversarial conditions the exact agent must survive before release.</p></article>
+            <article><span>04 · GOVERN</span><strong>Machine-readable gate</strong><p>Export required approvals, blockers, evidence retention, minimum seeds, and decision conditions.</p></article>
           </div>
         </section>
 
@@ -233,13 +233,13 @@ export default async function Home() {
         <section className="planes-section" id="system">
           <div className="planes-intro">
             <span className="section-label light">The assurance architecture</span>
-            <h2>Six connected planes. One inspectable decision.</h2>
-            <p>Every plane has a narrow contract. The interface is optional; sealed bundles and verification artifacts remain portable.</p>
+            <h2>Six connected layers. One inspectable decision.</h2>
+            <p>Every layer has a narrow contract. The interface is optional; sealed bundles and verification artifacts remain portable.</p>
             <a href={`${github}/blob/main/docs/architecture.md`} target="_blank" rel="noreferrer" className="text-link light-link">Read the architecture <span>↗</span></a>
           </div>
           <div className="planes-grid">
-            {controlPlanes.map(([title, copy], index) => (
-              <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title} plane</h3><p>{copy}</p><i /></article>
+            {assuranceLayers.map(([title, copy], index) => (
+              <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{copy}</p><i /></article>
             ))}
           </div>
         </section>

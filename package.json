@@ -23,6 +23,8 @@
     "test:domain": "node --experimental-strip-types --test tests/easap/*.test.ts",
     "typecheck": "tsc --noEmit",
     "content:daily": "node tools/publish-daily-intelligence.mjs",
+    "launch:capture": "python tools/capture-launch-assets.py",
+    "launch:validate": "node tools/validate-launch-package.mjs",
     "verify:evidence": "node --experimental-strip-types tools/verify-evidence.ts",
     "release:gate": "node --experimental-strip-types tools/release-gate.ts",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",

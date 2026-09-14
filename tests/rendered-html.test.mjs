@@ -71,10 +71,10 @@ test("server-renders the enterprise landing page and product metadata", async ()
   assert.match(html, /<title>EASAP \| Evidence Before Agent Authority<\/title>/i);
   assert.match(html, /Know what your AI agent will do/i);
   assert.match(html, /before you let it act/i);
-  assert.match(html, /Connect your agent/i);
-  assert.match(html, /Test a public agent/i);
+  assert.match(html, /Assess an agent/i);
+  assert.match(html, /Run the live proof/i);
   assert.match(html, /Use it immediately/i);
-  assert.match(html, /Observed evidence report/i);
+  assert.match(html, /Machine-readable gate/i);
   assert.match(html, /href="\/assess"/i);
   assert.match(html, /Why you should care/i);
   assert.match(html, /How it works/i);

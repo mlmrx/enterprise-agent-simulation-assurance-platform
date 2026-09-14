@@ -7,18 +7,18 @@ export function SiteHeader() {
     <header className="site-header">
       <Link className="site-brand" href="/" aria-label="EASAP home">
         <span className="site-mark" aria-hidden="true"><b>✓</b></span>
-        <span><strong>EASAP</strong><small>Agent assurance infrastructure</small></span>
+        <span><strong>EASAP</strong><small>Enterprise agent assurance</small></span>
       </Link>
       <nav aria-label="Main navigation">
-        <Link href="/what-is-easap">What is EASAP?</Link>
-        <Link href="/connect">Connect agent</Link>
+        <Link href="/what-is-easap">Why EASAP</Link>
+        <Link href="/platform">Platform</Link>
         <Link href="/guides">Guides</Link>
-        <Link href="/assess">Readiness planner</Link>
         <Link href="/news">Intelligence</Link>
       </nav>
       <div className="header-actions">
+        <span className="assurance-status"><i /> Open reference</span>
         <a className="github-link" href={github} target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
-        <Link className="button button-dark" href="/connect">Test your agent</Link>
+        <Link className="button button-dark" href="/assess">Assess an agent</Link>
       </div>
     </header>
   );
@@ -32,7 +32,7 @@ export function SiteFooter() {
           <span className="site-mark" aria-hidden="true"><b>✓</b></span>
           <span><strong>EASAP</strong><small>Evidence before authority.</small></span>
         </Link>
-        <p>Open, portable infrastructure for testing consequential enterprise agents against realistic worlds, hostile conditions, and explicit release gates.</p>
+        <p>Open, portable infrastructure for deciding when a consequential enterprise agent has earned a defined operating authority.</p>
       </div>
       <div className="footer-links">
         <span>Product</span>

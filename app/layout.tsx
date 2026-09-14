@@ -1,5 +1,20 @@
 import type { Metadata } from "next";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
+
+const plexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: "variable",
+  display: "swap",
+  variable: "--font-plex-sans",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-plex-mono",
+});
 
 export function generateMetadata(): Metadata {
   const configuredOrigin = process.env.EASAP_PUBLIC_URL || "http://localhost:3000";
@@ -41,7 +56,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${plexSans.variable} ${plexMono.variable}`}>{children}</body>
     </html>
   );
 }
