@@ -1,0 +1,29 @@
+{
+  "name": "easap-developer",
+  "version": "0.1.0",
+  "description": "Run evidence-scoped EASAP assurance workflows from Codex.",
+  "author": {
+    "name": "mlmrx",
+    "url": "https://github.com/mlmrx"
+  },
+  "homepage": "https://easap.dev",
+  "repository": "https://github.com/mlmrx/enterprise-agent-simulation-assurance-platform",
+  "license": "Apache-2.0",
+  "keywords": ["agents", "assurance", "evaluation", "governance"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "EASAP Developer",
+    "shortDescription": "Run agent assurance and inspect its evidence.",
+    "longDescription": "Plan agent assurance, run the public STANDARD-reference campaign, guide authorized public-endpoint checks, and review evidence without overstating production coverage.",
+    "developerName": "mlmrx",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://easap.dev",
+    "defaultPrompt": [
+      "Run an EASAP reference campaign and explain the evidence.",
+      "Build an assurance plan for this agent.",
+      "Check this authorized public agent with EASAP."
+    ],
+    "brandColor": "#C8FF3D"
+  }
+}

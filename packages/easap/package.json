@@ -1,0 +1,50 @@
+{
+  "name": "easap",
+  "version": "0.1.0",
+  "description": "One-command agent assurance and developer SDK for EASAP.",
+  "type": "module",
+  "bin": {
+    "easap": "bin/easap.mjs"
+  },
+  "exports": {
+    ".": "./src/client.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "smoke": "node bin/easap.mjs help",
+    "prepublishOnly": "npm test && npm run smoke"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "keywords": [
+    "ai-agents",
+    "assurance",
+    "evaluation",
+    "governance",
+    "red-team",
+    "security"
+  ],
+  "author": "mlmrx",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlmrx/enterprise-agent-simulation-assurance-platform.git",
+    "directory": "packages/easap"
+  },
+  "homepage": "https://easap.dev",
+  "bugs": {
+    "url": "https://github.com/mlmrx/enterprise-agent-simulation-assurance-platform/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

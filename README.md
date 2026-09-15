@@ -1,5 +1,18 @@
 # Enterprise Agent Simulation and Assurance Platform
 
+## One-command developer entry point
+
+Run a real hosted STANDARD-reference campaign and save its evidence with one line:
+
+```bash
+npx easap
+```
+
+The same zero-dependency package includes a JavaScript client, readiness planning,
+service diagnostics, and a guided flow for authorized public HTTPS agents. See
+[`packages/easap`](packages/easap/README.md). A Codex developer plugin is published
+alongside the source under [`plugins/easap-developer`](plugins/easap-developer).
+
 This repository is an end-to-end **STANDARD reference implementation** of
 EASAP-PS-001 v1.0. It turns immutable agent, world, and scenario manifests into
 repeatable seeded trials, causal traces, findings, statistical measures, signed
