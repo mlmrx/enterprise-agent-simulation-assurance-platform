@@ -109,6 +109,16 @@ test("renders platform, editorial, intelligence, and daily brief surfaces", asyn
   }
 });
 
+test("renders the one-command developer distribution surface", async () => {
+  const response = await fetch(`${baseUrl}/developers`);
+  const html = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(html, /npx easap/u);
+  assert.match(html, /EASAP Developer/u);
+  assert.match(html, /Reference evidence.not production certification/u);
+  assert.match(html, /zero-dependency client/u);
+});
+
 test("portable build has no host-specific runtime bindings", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
   assert.match(packageJson, /"next":/);

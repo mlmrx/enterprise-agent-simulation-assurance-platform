@@ -12,6 +12,7 @@ export function SiteHeader() {
       <nav aria-label="Main navigation">
         <Link href="/what-is-easap">Why EASAP</Link>
         <Link href="/platform">Platform</Link>
+        <Link href="/developers">Developers</Link>
         <Link href="/guides">Guides</Link>
         <Link href="/news">Intelligence</Link>
       </nav>
@@ -41,6 +42,7 @@ export function SiteFooter() {
         <Link href="/guides">Function guides</Link>
         <Link href="/assess">Readiness planner</Link>
         <Link href="/platform">Live workbench</Link>
+        <Link href="/developers">Developer tools</Link>
         <Link href="/insights">Insights</Link>
         <Link href="/news">Daily intelligence</Link>
       </div>
