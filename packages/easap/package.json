@@ -1,5 +1,5 @@
 {
-  "name": "easap",
+  "name": "@mlmrx/easap",
   "version": "0.1.0",
   "description": "One-command agent assurance and developer SDK for EASAP.",
   "type": "module",

@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 };
 
 const commands = [
-  ["RUN", "npx easap", "Execute the hosted STANDARD-reference campaign and save its complete JSON evidence."],
-  ["PLAN", "npx easap init", "Create a readiness input, then turn authority and exposure into an assignable assurance plan."],
-  ["CHECK", "npx easap check <https-url> --name <name> --authorized", "Verify control of a public agent and run four bounded read-only black-box probes."],
+  ["RUN", "npx @mlmrx/easap", "Execute the hosted STANDARD-reference campaign and save its complete JSON evidence."],
+  ["PLAN", "npx @mlmrx/easap init", "Create a readiness input, then turn authority and exposure into an assignable assurance plan."],
+  ["CHECK", "npx @mlmrx/easap check <https-url> --name <name> --authorized", "Verify control of a public agent and run four bounded read-only black-box probes."],
 ] as const;
 
 export default function DevelopersPage() {
@@ -32,7 +32,7 @@ export default function DevelopersPage() {
           </div>
           <div className="developer-terminal" aria-label="EASAP command line example">
             <div><span /><span /><span /><small>easap / terminal</small></div>
-            <pre><code><b>$</b> npx easap{"\n\n"}<span>EASAP STANDARD-reference campaign</span>{"\n\n"}Decision           CONDITIONAL{"\n"}Trials             12{"\n"}Evidence integrity verified{"\n"}Certificate        reference fixture{"\n"}Saved              ./easap-evidence.json</code></pre>
+            <pre><code><b>$</b> npx @mlmrx/easap{"\n\n"}<span>EASAP STANDARD-reference campaign</span>{"\n\n"}Decision           CONDITIONAL{"\n"}Trials             12{"\n"}Evidence integrity verified{"\n"}Certificate        reference fixture{"\n"}Saved              ./easap-evidence.json</code></pre>
             <p>Reference evidence—not production certification.</p>
           </div>
         </section>
@@ -64,7 +64,7 @@ export default function DevelopersPage() {
               <li><span>03</span> Typed, explicit evidence boundaries</li>
             </ul>
           </div>
-          <pre><code><span>import</span> {`{ createClient }`} <span>from</span> <b>&quot;easap&quot;</b>;{"\n\n"}<span>const</span> easap = createClient();{"\n"}<span>const</span> campaign = <span>await</span> easap.runDemo({`{ trialCount: 12 }`});{"\n\n"}console.log(campaign.data.decision.posture);</code></pre>
+          <pre><code><span>import</span> {`{ createClient }`} <span>from</span> <b>&quot;@mlmrx/easap&quot;</b>;{"\n\n"}<span>const</span> easap = createClient();{"\n"}<span>const</span> campaign = <span>await</span> easap.runDemo({`{ trialCount: 12 }`});{"\n\n"}console.log(campaign.data.decision.posture);</code></pre>
         </section>
 
         <section className="developer-plugin">

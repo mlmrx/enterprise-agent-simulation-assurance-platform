@@ -8,12 +8,12 @@ import { createClient, EasapError } from "../src/client.mjs";
 const HELP = `EASAP — executable assurance for enterprise agents
 
 Usage
-  npx easap                         Run a hosted STANDARD-reference campaign
-  npx easap demo [--trials 12]     Run the campaign and save evidence
-  npx easap check <https-url>      Guide an authorized public-agent probe
-  npx easap init [directory]       Create a readiness input template
-  npx easap assess <input.json>    Generate a deterministic readiness plan
-  npx easap doctor                 Check the configured EASAP service
+  npx @mlmrx/easap                         Run a hosted STANDARD-reference campaign
+  npx @mlmrx/easap demo [--trials 12]     Run the campaign and save evidence
+  npx @mlmrx/easap check <https-url>      Guide an authorized public-agent probe
+  npx @mlmrx/easap init [directory]       Create a readiness input template
+  npx @mlmrx/easap assess <input.json>    Generate a deterministic readiness plan
+  npx @mlmrx/easap doctor                 Check the configured EASAP service
 
 Developer options
   --base-url <url>                 Override https://easap.dev
@@ -108,7 +108,7 @@ async function init(directory) {
     safeguards: ["least_privilege", "human_approval", "audit_logging"],
   };
   await saveJson(outputPath, input);
-  process.stdout.write(`Created ${outputPath}\nNext: npx easap assess "${outputPath}"\n`);
+  process.stdout.write(`Created ${outputPath}\nNext: npx @mlmrx/easap assess "${outputPath}"\n`);
 }
 
 async function demo(client, flags) {
@@ -224,7 +224,7 @@ async function main() {
   }
   if (command === "assess") return assess(client, positional[1], flags);
   if (command === "check") return check(client, positional[1], flags);
-  throw new EasapError(`Unknown command: ${command}. Run npx easap help.`);
+  throw new EasapError(`Unknown command: ${command}. Run npx @mlmrx/easap help.`);
 }
 
 main().catch((error) => {

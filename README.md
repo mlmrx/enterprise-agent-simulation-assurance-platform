@@ -5,7 +5,7 @@
 Run a real hosted STANDARD-reference campaign and save its evidence with one line:
 
 ```bash
-npx easap
+npx @mlmrx/easap
 ```
 
 The same zero-dependency package includes a JavaScript client, readiness planning,

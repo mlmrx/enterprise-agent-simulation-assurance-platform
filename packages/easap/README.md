@@ -3,7 +3,7 @@
 Run a real EASAP STANDARD-reference campaign and save its evidence:
 
 ```bash
-npx easap
+npx @mlmrx/easap
 ```
 
 No account or API key is required. The command calls the bounded public runner at
@@ -15,7 +15,7 @@ current directory. It is reference evidence—not a production safety certificat
 For an authorized public HTTPS JSON endpoint:
 
 ```bash
-npx easap check https://agent.example.com/v1/message --name "Support agent" --protocol json_message --authorized
+npx @mlmrx/easap check https://agent.example.com/v1/message --name "Support agent" --protocol json_message --authorized
 ```
 
 EASAP issues a short-lived ownership challenge and waits while you publish its
@@ -29,11 +29,11 @@ enterprise boundary for private or authenticated agents.
 ## Developer commands
 
 ```bash
-npx easap init
-npx easap demo --trials 24 --out evidence.json
-npx easap assess easap-readiness-input.json --out readiness.json
-npx easap doctor --json
-npx easap help
+npx @mlmrx/easap init
+npx @mlmrx/easap demo --trials 24 --out evidence.json
+npx @mlmrx/easap assess easap-readiness-input.json --out readiness.json
+npx @mlmrx/easap doctor --json
+npx @mlmrx/easap help
 ```
 
 Use `--base-url http://localhost:3000` with a local or self-hosted EASAP service.
@@ -41,7 +41,7 @@ Use `--base-url http://localhost:3000` with a local or self-hosted EASAP service
 ## JavaScript client
 
 ```js
-import { createClient } from "easap";
+import { createClient } from "@mlmrx/easap";
 
 const easap = createClient();
 const campaign = await easap.runDemo({ trialCount: 12 });

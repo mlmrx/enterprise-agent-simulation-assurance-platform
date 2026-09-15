@@ -29,7 +29,7 @@
     "launch:validate": "node tools/validate-launch-package.mjs",
     "verify:evidence": "node --experimental-strip-types tools/verify-evidence.ts",
     "release:gate": "node --experimental-strip-types tools/release-gate.ts",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern outputs",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {

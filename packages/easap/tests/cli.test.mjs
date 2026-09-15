@@ -24,7 +24,7 @@ function runCli(args) {
 test("help exposes the one-command and public-agent workflows", async () => {
   const result = await runCli(["help"]);
   assert.equal(result.code, 0);
-  assert.match(result.stdout, /npx easap\s+Run a hosted STANDARD-reference campaign/u);
+  assert.match(result.stdout, /npx @mlmrx\/easap\s+Run a hosted STANDARD-reference campaign/u);
   assert.match(result.stdout, /--authorized/u);
 });
 

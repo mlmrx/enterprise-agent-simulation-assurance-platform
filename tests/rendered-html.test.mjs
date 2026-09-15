@@ -113,7 +113,7 @@ test("renders the one-command developer distribution surface", async () => {
   const response = await fetch(`${baseUrl}/developers`);
   const html = await response.text();
   assert.equal(response.status, 200);
-  assert.match(html, /npx easap/u);
+  assert.match(html, /npx @mlmrx\/easap/u);
   assert.match(html, /EASAP Developer/u);
   assert.match(html, /Reference evidence.not production certification/u);
   assert.match(html, /zero-dependency client/u);

@@ -8,7 +8,7 @@ description: Use EASAP to plan, run, or review evidence-scoped assurance for an 
 Use the public CLI for the fastest executable path:
 
 ```bash
-npx easap
+npx @mlmrx/easap
 ```
 
 This runs the hosted STANDARD-reference campaign and writes JSON evidence. Describe
@@ -17,14 +17,14 @@ it as executable reference evidence, never as production certification.
 ## Choose the workflow
 
 - For an immediate product demonstration or regression sanity check, run
-  `npx easap` and inspect the saved decision, trial summary, evidence verification,
+  `npx @mlmrx/easap` and inspect the saved decision, trial summary, evidence verification,
   limitations, and run identifier.
 - For a readiness plan, collect the agent's authority, data classes, deployment
   stage, exposure, volume, and existing controls. Create the documented JSON input
-  and run `npx easap assess <input.json>`.
+  and run `npx @mlmrx/easap assess <input.json>`.
 - For a public endpoint, require the user to confirm that they control it and that
   four read-only probes are safe. Then use
-  `npx easap check <https-url> --name <name> --protocol <json_message|openai_chat> --authorized`.
+  `npx @mlmrx/easap check <https-url> --name <name> --protocol <json_message|openai_chat> --authorized`.
 - For private, authenticated, browser-only, credential-bearing, or internal agents,
   do not route through the hosted connector. Recommend a self-hosted EASAP runtime
   inside the enterprise boundary.
@@ -46,6 +46,6 @@ the evidence reports them.
 
 ## Developer interface
 
-The `easap` package exports `createClient` and `EasapClient`. Prefer the SDK over
+The `@mlmrx/easap` package exports `createClient` and `EasapClient`. Prefer the SDK over
 reimplementing HTTP calls when integrating JavaScript automation. Use
 `EASAP_BASE_URL` or `--base-url` for an approved self-hosted service.
