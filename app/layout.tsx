@@ -29,8 +29,13 @@ export function generateMetadata(): Metadata {
     description,
     applicationName: "EASAP",
     icons: {
-      icon: "/favicon.svg",
-      shortcut: "/favicon.svg",
+      icon: [
+        { url: "/favicon.ico?v=easap-1", sizes: "16x16 32x32 48x48 256x256" },
+        { url: "/favicon-32.png?v=easap-1", type: "image/png", sizes: "32x32" },
+        { url: "/favicon.svg?v=easap-1", type: "image/svg+xml", sizes: "any" },
+      ],
+      shortcut: "/favicon.ico?v=easap-1",
+      apple: { url: "/apple-touch-icon.png?v=easap-1", sizes: "180x180", type: "image/png" },
     },
     openGraph: {
       type: "website",

@@ -85,6 +85,9 @@ test("server-renders the enterprise landing page and product metadata", async ()
   assert.match(html, /Function guides/i);
   assert.match(html, /github\.com\/mlmrx\/enterprise-agent-simulation-assurance-platform/i);
   assert.match(html, /\/og\.png/i);
+  assert.match(html, /src="\/brand\/easap-mark\.svg"/i);
+  assert.match(html, /rel="icon"[^>]*href="\/favicon\.svg\?v=easap-1"/i);
+  assert.match(html, /rel="apple-touch-icon"[^>]*href="\/apple-touch-icon\.png\?v=easap-1"/i);
 });
 
 test("renders platform, editorial, intelligence, and daily brief surfaces", async () => {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const github = "https://github.com/mlmrx/enterprise-agent-simulation-assurance-platform";
 
@@ -6,7 +7,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <Link className="site-brand" href="/" aria-label="EASAP home">
-        <span className="site-mark" aria-hidden="true"><b>✓</b></span>
+        <Image className="site-mark" src="/brand/easap-mark.svg" width={42} height={42} alt="" unoptimized />
         <span><strong>EASAP</strong><small>Enterprise agent assurance</small></span>
       </Link>
       <nav aria-label="Main navigation">
@@ -30,7 +31,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div>
         <Link className="site-brand footer-brand" href="/">
-          <span className="site-mark" aria-hidden="true"><b>✓</b></span>
+          <Image className="site-mark" src="/brand/easap-mark.svg" width={42} height={42} alt="" unoptimized />
           <span><strong>EASAP</strong><small>Evidence before authority.</small></span>
         </Link>
         <p>Open, portable infrastructure for deciding when a consequential enterprise agent has earned a defined operating authority.</p>
