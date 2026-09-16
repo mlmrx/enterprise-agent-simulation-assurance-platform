@@ -1,0 +1,18 @@
+{
+  "name": "easap-launch-agent",
+  "version": "0.1.0",
+  "description": "Prepare, execute, verify, and report an EASAP product launch with durable publication receipts.",
+  "author": {
+    "name": "mlmrx"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "EASAP Launch Agent",
+    "shortDescription": "Execute the launch and track publication receipts.",
+    "longDescription": "Prepare channel-specific launch content, check product health and account readiness, execute approved scheduled posts, handle browser channels, verify publications, and report observed results.",
+    "developerName": "mlmrx",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write", "Interactive"],
+    "defaultPrompt": "Run the EASAP launch agent. Prepare the campaign, check configured accounts, execute already-authorized work, and report publication receipts and blockers."
+  }
+}

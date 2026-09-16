@@ -18,15 +18,14 @@ Replace bracketed fields before publishing. Keep the first link aligned with the
 
 **Primary URL:** https://easap.dev
 
-**Thumbnail:** `assets/easap-thumbnail-240.gif` or a static 240×240 logo if the animation distracts.
+**Thumbnail:** `assets/easap-thumbnail-240.gif`.
 
 ### Gallery order and captions
 
-1. `easap-launch-hero.gif` — **Evidence before authority.** See the three working paths from agent description to inspectable release evidence.
-2. `readiness-planner.gif` — **Generate the release work.** Risk tier, open controls, scenarios, owners, approvals, and policy from one agent description.
-3. `public-agent-connector.gif` — **Test a public agent you control.** EASAP requires an ownership challenge before bounded prompts are sent.
-4. `live-assurance-campaign.gif` — **Watch the evidence chain execute.** Seeded trials, mediated effects, findings, uncertainty, and a bounded posture.
-5. `role-guides.gif` — **One system, different jobs.** Concrete workflows for engineering, security, governance, and release teams.
+1. `readiness-planner-poster.png` — **Generate the release work.** Risk tier, open controls, scenarios, owners, approvals, and policy from one agent description.
+2. `public-agent-connector-poster.png` — **Start with ownership proof.** The preview shows challenge issuance; probes require completed verification.
+3. `live-assurance-campaign-poster.png` — **Inspect reference evidence.** Seeded trials, mediated effects, findings, uncertainty, and a bounded posture from the synthetic campaign.
+4. `role-guides-poster.png` — **One system, different jobs.** Concrete workflows for engineering, security, governance, and release teams.
 
 ### First maker comment
 
@@ -321,15 +320,13 @@ This release is not a certification or a claim of universal agent safety. It is 
 
 ## Launch email
 
-### Subject options
+### Subject
 
-- Evidence before authority: EASAP is live
-- A working release-readiness system for enterprise AI agents
-- Is your agent ready to act? Generate the evidence plan
+Evidence before authority: EASAP is live
 
 ### Email
 
-Hi [FIRST NAME],
+Hi,
 
 AI agents are beginning to read private data, call tools, change records, and represent organizations. The evidence used to release them has not kept pace with that authority.
 
@@ -350,13 +347,13 @@ EASAP is not a certification or a universal safety guarantee. It is a way to mak
 
 If you are working on a consequential agent, reply with the one workflow whose release evidence is hardest to defend. I’m selecting a small number of bounded workflows for design reviews.
 
-[FOUNDER NAME]
+EASAP
 
-### T+3 follow-up
+## Launch email follow-up draft
 
 Subject: The most useful first step is not an integration
 
-Hi [FIRST NAME],
+Hi,
 
 You do not need to connect a production agent to find value in EASAP.
 
@@ -366,7 +363,7 @@ It takes a few minutes and requires no account: https://easap.dev/assess
 
 If the output misses a control or scenario your organization requires, reply with it. That feedback is more valuable than a generic product reaction.
 
-[FOUNDER NAME]
+EASAP
 
 ## Slack / Teams community post
 

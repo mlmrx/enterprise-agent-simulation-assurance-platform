@@ -1,0 +1,23 @@
+{
+  "id": "easap-developer-launch",
+  "name": "EASAP developer launch",
+  "site": "https://easap.dev",
+  "repository": "mlmrx/enterprise-agent-simulation-assurance-platform",
+  "sourcePackage": "launch/2026-09",
+  "startsAt": null,
+  "maxPerRun": 4,
+  "healthPaths": ["/developers", "/assess", "/connect", "/platform"],
+  "channels": {
+    "github": { "enabled": true, "repository": "mlmrx/enterprise-agent-simulation-assurance-platform", "tag": "easap-developer-launch-v0.1.0", "target": "main" },
+    "devto": { "enabled": true, "username": "" },
+    "linkedin": { "enabled": true, "author": "", "apiVersion": "" },
+    "x": { "enabled": true, "userId": "" },
+    "producthunt": { "enabled": true, "destination": "https://www.producthunt.com/posts/new" },
+    "hackernews": { "enabled": true, "destination": "https://news.ycombinator.com/submit" },
+    "reddit": { "enabled": true, "destination": "" },
+    "hashnode": { "enabled": true, "destination": "" },
+    "email": { "enabled": true, "destination": "" },
+    "communities": { "enabled": true, "destination": "" },
+    "youtube": { "enabled": true, "destination": "https://studio.youtube.com" }
+  }
+}

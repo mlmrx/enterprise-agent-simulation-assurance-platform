@@ -39,7 +39,7 @@ Use it when: an authorized public agent exists, you need a quick behavioral obse
 
 Deploying the connector inside the enterprise environment changes what can be tested without transferring control to a third party.
 
-The organization can use its own identity, secret management, network policy, allowlists, audit trail, and data controls. The connector can reach private endpoints and authenticated contracts under local governance.
+The organization can implement its own identity, secret management, network policy, allowlists, audit trail, and data controls. Reaching private endpoints and authenticated contracts requires a self-hosted integration designed for those boundaries; deploying the unchanged public connector does not add that support.
 
 Self-hosting does not automatically create strong assurance. The deployment must still prevent arbitrary targeting, protect credentials, bound requests, mediate capabilities, isolate workloads, retain evidence appropriately, and separate author from approver where required.
 

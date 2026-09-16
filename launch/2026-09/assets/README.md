@@ -13,6 +13,20 @@ These assets are captured from the working local EASAP product by `tools/capture
 | `role-guides.gif` / `.mp4` | Guide hub and security/red-team workflow | Cross-functional and enablement posts |
 | `*-poster.png` | Final evidence state at 1270×760 | Product Hunt gallery, thumbnails, static fallback |
 | `easap-thumbnail-240.gif` | 240×240 animated identity/product sequence | Product Hunt thumbnail if under 3 MB |
+| `easap-developer-tools.gif` | Published npm CLI execution, actual reference evidence, and Codex plugin workflow overview | Developer launch, GitHub, social posts |
+
+## Developer tools animation
+
+`easap-developer-tools.gif` is a 1200×750 animation rendered from an actual
+`@mlmrx/easap@0.1.0` invocation against the hosted reference service. Terminal
+output is reformatted and paced for readability; the saved absolute path is
+shortened to `./evidence.json`. The evidence panel shows selected real fields.
+The Codex plugin panel describes its available workflows; it is not a recording
+of an executed Codex conversation or evidence of public marketplace approval.
+
+Regenerate with `python tools/render-developer-gif.py --capture`. The source
+transcript and complete response are saved under ignored `outputs/developer-gif/`.
+`easap-developer-tools-poster.png` supplies a static fallback.
 
 ## Capture command
 

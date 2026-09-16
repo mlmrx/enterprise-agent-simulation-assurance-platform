@@ -1,5 +1,14 @@
 # Enterprise Agent Simulation and Assurance Platform
 
+## Launch execution agent
+
+Run `npm run launch:prepare` to assemble the campaign and open
+`outputs/launch-agent/review.html`. `npm run launch:agent` starts the Codex launch
+agent using your existing sign-in. It prepares all launch channels, executes
+authorized scheduled API posts, guides browser submissions, and tracks receipts.
+See [`packages/launch-agent`](packages/launch-agent/README.md) for account setup,
+publication boundaries, and recovery commands.
+
 ## One-command developer entry point
 
 Run a real hosted STANDARD-reference campaign and save its evidence with one line:

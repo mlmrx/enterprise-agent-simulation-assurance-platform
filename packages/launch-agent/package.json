@@ -1,0 +1,9 @@
+{
+  "name": "easap-launch-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Resumable launch execution for EASAP, operated by Codex or a local CLI.",
+  "engines": { "node": ">=22.13.0" },
+  "scripts": { "test": "node --test tests/*.test.mjs" }
+}
