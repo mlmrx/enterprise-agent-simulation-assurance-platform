@@ -1,7 +1,17 @@
 {
-  "generatedAt": "2026-10-15T16:54:28.476Z",
+  "generatedAt": "2026-10-16T16:33:56.005Z",
   "method": "automated primary-source sync; 12 relevant items retained",
   "items": [
+    {
+      "title": "New Chip-Based ‘Tape Measure’ for Light Could Revolutionize Mobile Timekeeping and Enhance National Security",
+      "source": "NIST News",
+      "publishedAt": "2026-10-16",
+      "href": "https://www.nist.gov/news-events/news/2026/10/new-chip-based-tape-measure-light-could-revolutionize-mobile-timekeeping",
+      "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+      "tags": [
+        "security"
+      ]
+    },
     {
       "title": "GenAI and Agentic AI Exploit Roundup Q3 2026",
       "source": "OWASP GenAI Security Project",
@@ -116,17 +126,6 @@
       "signal": "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
       "tags": [
         "security",
-        "standards",
-        "agents"
-      ]
-    },
-    {
-      "title": "Announcing the \"AI Agent Standards Initiative\" for Interoperable and Secure Innovation",
-      "source": "NIST News",
-      "publishedAt": "2026-02-17",
-      "href": "https://www.nist.gov/news-events/news/2026/02/announcing-ai-agent-standards-initiative-interoperable-and-secure",
-      "signal": "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
-      "tags": [
         "standards",
         "agents"
       ]

@@ -1,22 +1,32 @@
 {
-  "date": "2026-10-15",
-  "slug": "agent-assurance-daily-2026-10-15",
-  "title": "Agent Assurance Daily — 2026-10-15",
+  "date": "2026-10-16",
+  "slug": "agent-assurance-daily-2026-10-16",
+  "title": "Agent Assurance Daily — 2026-10-16",
   "dek": "A source-linked operating brief for teams testing and governing enterprise agents.",
-  "generatedAt": "2026-10-15T16:54:28.476Z",
+  "generatedAt": "2026-10-16T16:33:56.005Z",
   "methodology": "Deterministic synthesis from resolvable primary-source feed items. No language model and no invented reporting.",
   "lead": {
-    "title": "GenAI and Agentic AI Exploit Roundup Q3 2026",
-    "source": "OWASP GenAI Security Project",
-    "publishedAt": "2026-10-08",
-    "href": "https://genai.owasp.org/2026/10/08/genai-and-agentic-ai-exploit-roundup-q3-2026/",
+    "title": "New Chip-Based ‘Tape Measure’ for Light Could Revolutionize Mobile Timekeeping and Enhance National Security",
+    "source": "NIST News",
+    "publishedAt": "2026-10-16",
+    "href": "https://www.nist.gov/news-events/news/2026/10/new-chip-based-tape-measure-light-could-revolutionize-mobile-timekeeping",
     "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
     "tags": [
-      "security",
-      "agents"
+      "security"
     ]
   },
   "watchlist": [
+    {
+      "title": "GenAI and Agentic AI Exploit Roundup Q3 2026",
+      "source": "OWASP GenAI Security Project",
+      "publishedAt": "2026-10-08",
+      "href": "https://genai.owasp.org/2026/10/08/genai-and-agentic-ai-exploit-roundup-q3-2026/",
+      "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+      "tags": [
+        "security",
+        "agents"
+      ]
+    },
     {
       "title": "OWASP GenAI Security Project Unveils 2026 Top 10 for LLM Applications, New Agent Control Standard and Sponsors as Community Tops 30,000 Members",
       "source": "OWASP GenAI Security Project",
@@ -58,22 +68,11 @@
       "tags": [
         "security"
       ]
-    },
-    {
-      "title": "NIST Expands AI Consortium’s Scope, Calls for New Members",
-      "source": "NIST News",
-      "publishedAt": "2026-05-29",
-      "href": "https://www.nist.gov/news-events/news/2026/05/nist-expands-ai-consortiums-scope-calls-new-members",
-      "signal": "Compare the evaluation method with system-level measures, uncertainty reporting, hidden-suite controls, and reproducibility requirements.",
-      "tags": [
-        "evaluation"
-      ]
     }
   ],
   "actions": [
     "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
     "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
-    "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites.",
-    "Compare the evaluation method with system-level measures, uncertainty reporting, hidden-suite controls, and reproducibility requirements."
+    "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites."
   ]
 }
