@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-19T18:41:47.072Z",
+  "generatedAt": "2026-10-20T16:56:06.782Z",
   "method": "automated primary-source sync; 12 relevant items retained",
   "items": [
     {
@@ -53,6 +53,17 @@
       "signal": "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites.",
       "tags": [
         "platform change"
+      ]
+    },
+    {
+      "title": "GenAI and Agentic AI Exploit Roundup Q2 2026",
+      "source": "OWASP GenAI Security Project",
+      "publishedAt": "2026-07-09",
+      "href": "https://genai.owasp.org/2026/07/08/genai-and-agentic-ai-exploit-roundup-q2-2026/",
+      "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+      "tags": [
+        "security",
+        "agents"
       ]
     },
     {
@@ -116,18 +127,6 @@
       "tags": [
         "security",
         "standards"
-      ]
-    },
-    {
-      "title": "A2A Project release v1.0.0",
-      "source": "A2A Project",
-      "publishedAt": "2026-03-12",
-      "href": "https://github.com/a2aproject/A2A/releases/tag/v1.0.0",
-      "signal": "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
-      "tags": [
-        "security",
-        "standards",
-        "agents"
       ]
     }
   ]
