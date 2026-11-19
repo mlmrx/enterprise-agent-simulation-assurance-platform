@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-19",
+  "slug": "agent-assurance-daily-2026-11-19",
+  "title": "Agent Assurance Daily — 2026-11-19",
+  "dek": "A source-linked operating brief for teams testing and governing enterprise agents.",
+  "generatedAt": "2026-11-19T20:29:40.762Z",
+  "methodology": "Deterministic synthesis from resolvable primary-source feed items. No language model and no invented reporting.",
+  "lead": {
+    "title": "New Chip-Based ‘Tape Measure’ for Light Could Revolutionize Mobile Timekeeping and Enhance National Security",
+    "source": "NIST News",
+    "publishedAt": "2026-10-16",
+    "href": "https://www.nist.gov/news-events/news/2026/10/new-chip-based-tape-measure-light-could-revolutionize-mobile-timekeeping",
+    "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+    "tags": [
+      "security"
+    ]
+  },
+  "watchlist": [
+    {
+      "title": "Model Context Protocol release 2026-07-28",
+      "source": "Model Context Protocol",
+      "publishedAt": "2026-07-28",
+      "href": "https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28",
+      "signal": "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites.",
+      "tags": [
+        "platform change"
+      ]
+    },
+    {
+      "title": "Model Context Protocol release 2026-07-28 RC",
+      "source": "Model Context Protocol",
+      "publishedAt": "2026-07-28",
+      "href": "https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28-RC",
+      "signal": "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites.",
+      "tags": [
+        "platform change"
+      ]
+    },
+    {
+      "title": "NIST Mathematical Proof Supports Transition to a Continuous-Monitor-and-Update Security Model for AI Systems",
+      "source": "NIST News",
+      "publishedAt": "2026-06-09",
+      "href": "https://www.nist.gov/news-events/news/2026/06/nist-mathematical-proof-supports-transition-continuous-monitor-and-update",
+      "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "title": "NIST Expands AI Consortium’s Scope, Calls for New Members",
+      "source": "NIST News",
+      "publishedAt": "2026-05-29",
+      "href": "https://www.nist.gov/news-events/news/2026/05/nist-expands-ai-consortiums-scope-calls-new-members",
+      "signal": "Compare the evaluation method with system-level measures, uncertainty reporting, hidden-suite controls, and reproducibility requirements.",
+      "tags": [
+        "evaluation"
+      ]
+    },
+    {
+      "title": "A2A Project release v1.0.0",
+      "source": "A2A Project",
+      "publishedAt": "2026-03-12",
+      "href": "https://github.com/a2aproject/A2A/releases/tag/v1.0.0",
+      "signal": "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
+      "tags": [
+        "security",
+        "standards",
+        "agents"
+      ]
+    }
+  ],
+  "actions": [
+    "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+    "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites.",
+    "Compare the evaluation method with system-level measures, uncertainty reporting, hidden-suite controls, and reproducibility requirements.",
+    "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update."
+  ]
+}
