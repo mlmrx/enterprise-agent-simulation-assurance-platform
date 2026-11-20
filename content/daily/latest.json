@@ -1,9 +1,9 @@
 {
-  "date": "2026-11-19",
-  "slug": "agent-assurance-daily-2026-11-19",
-  "title": "Agent Assurance Daily — 2026-11-19",
+  "date": "2026-11-20",
+  "slug": "agent-assurance-daily-2026-11-20",
+  "title": "Agent Assurance Daily — 2026-11-20",
   "dek": "A source-linked operating brief for teams testing and governing enterprise agents.",
-  "generatedAt": "2026-11-19T20:29:40.762Z",
+  "generatedAt": "2026-11-20T20:05:36.609Z",
   "methodology": "Deterministic synthesis from resolvable primary-source feed items. No language model and no invented reporting.",
   "lead": {
     "title": "New Chip-Based ‘Tape Measure’ for Light Could Revolutionize Mobile Timekeeping and Enhance National Security",
@@ -16,6 +16,29 @@
     ]
   },
   "watchlist": [
+    {
+      "title": "GenAI and Agentic AI Exploit Roundup Q3 2026",
+      "source": "OWASP GenAI Security Project",
+      "publishedAt": "2026-10-08",
+      "href": "https://genai.owasp.org/2026/10/08/genai-and-agentic-ai-exploit-roundup-q3-2026/",
+      "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
+      "tags": [
+        "security",
+        "agents"
+      ]
+    },
+    {
+      "title": "OWASP GenAI Security Project Unveils 2026 Top 10 for LLM Applications, New Agent Control Standard and Sponsors as Community Tops 30,000 Members",
+      "source": "OWASP GenAI Security Project",
+      "publishedAt": "2026-09-01",
+      "href": "https://genai.owasp.org/2026/09/01/owasp-genai-security-project-unveils-2026-top-10-for-llm-applications-new-agent-control-standard-and-sponsors-as-community-tops-30000-members/",
+      "signal": "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
+      "tags": [
+        "security",
+        "standards",
+        "agents"
+      ]
+    },
     {
       "title": "Model Context Protocol release 2026-07-28",
       "source": "Model Context Protocol",
@@ -37,42 +60,20 @@
       ]
     },
     {
-      "title": "NIST Mathematical Proof Supports Transition to a Continuous-Monitor-and-Update Security Model for AI Systems",
-      "source": "NIST News",
-      "publishedAt": "2026-06-09",
-      "href": "https://www.nist.gov/news-events/news/2026/06/nist-mathematical-proof-supports-transition-continuous-monitor-and-update",
+      "title": "GenAI and Agentic AI Exploit Roundup Q2 2026",
+      "source": "OWASP GenAI Security Project",
+      "publishedAt": "2026-07-09",
+      "href": "https://genai.owasp.org/2026/07/08/genai-and-agentic-ai-exploit-roundup-q2-2026/",
       "signal": "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
       "tags": [
-        "security"
-      ]
-    },
-    {
-      "title": "NIST Expands AI Consortium’s Scope, Calls for New Members",
-      "source": "NIST News",
-      "publishedAt": "2026-05-29",
-      "href": "https://www.nist.gov/news-events/news/2026/05/nist-expands-ai-consortiums-scope-calls-new-members",
-      "signal": "Compare the evaluation method with system-level measures, uncertainty reporting, hidden-suite controls, and reproducibility requirements.",
-      "tags": [
-        "evaluation"
-      ]
-    },
-    {
-      "title": "A2A Project release v1.0.0",
-      "source": "A2A Project",
-      "publishedAt": "2026-03-12",
-      "href": "https://github.com/a2aproject/A2A/releases/tag/v1.0.0",
-      "signal": "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
-      "tags": [
         "security",
-        "standards",
         "agents"
       ]
     }
   ],
   "actions": [
     "Convert the reported technique into a sealed adversarial scenario and verify capability containment under composed faults.",
-    "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites.",
-    "Compare the evaluation method with system-level measures, uncertainty reporting, hidden-suite controls, and reproducibility requirements.",
-    "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update."
+    "Map the change to assurance profiles, evidence requirements, and release-gate policy before the next material agent update.",
+    "Treat protocol or runtime movement as a material dependency change and rerun the affected operating-envelope suites."
   ]
 }
